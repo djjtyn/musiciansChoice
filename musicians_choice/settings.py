@@ -49,6 +49,11 @@ INSTALLED_APPS = [
     'django_forms_bootstrap',
     'home',
     'users',
+    'brands',
+    'comments',
+    'instrument_type',
+    'instruments',
+    'orders',
 ]
 
 MIDDLEWARE = [

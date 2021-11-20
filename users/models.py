@@ -27,41 +27,40 @@ class AccountManager(BaseUserManager):
             return user
         except:
             print("There was an issue creating the least privileged account")
+            
+    # Method to create a staff member
+    def create_staffmember(self, f_name, l_name, email, password):
+        try:
+            # use the customer creation method as a base
+            try:
+                user = self.create_customer(f_name, l_name, email, password)
+            except:
+                print("There was an issue with creating the base user for a staff member")
+                return
+            # add additional details to the base
+            user.is_admin = True
+            user.is_staff = True
+            user.save
+            return user
+        except:
+            print("There was an issue creating this staff member")
        
     # Method to create a superuser 
-    # def create_superuser(self, email, password):
-    #     try:
-    #         # use the customer creation method as a base
-    #         try:
-    #             user = self.create_customer(email, password)
-    #         except:
-    #             print("There was an issue with creating the base user for a superuser")
-    #             return
-    #         # add additional details to the base user
-    #         user.is_admin = True
-    #         user.is_staff = True
-    #         user.is_superuser = True
-    #         user.save(using = self._db)
-    #         return user
-    #     except:
-    #         print("There was an issue creating this superuser")
+    def create_superuser(self,f_name, l_name, email, password):
+        try:
+            # use the staff member creation method as a base
+            try:
+                user = self.create_staffmember(f_name, l_name, email, password)
+            except:
+                print("There was an issue with creating the base user for a superuser")
+                return
+            user.is_superuser = True
+            user.save()
+            return user
+        except:
+            print("There was an issue creating this superuser")
             
-    # # Method to create a staff member
-    # def create_staffmember(self, email, password):
-    #     try:
-    #         # use the customer creation method as a base
-    #         try:
-    #             user = self.create_customer(email, password)
-    #         except:
-    #             print("There was an issue with creating the base user for a staff member")
-    #             return
-    #         # add additional details to the base
-    #         user.is_admin = True
-    #         user.is_staff = True
-    #         user.save(using = self._db)
-    #         return user
-    #     except:
-    #         print("There was an issue creating this staff member")
+
             
 
     
@@ -78,6 +77,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     objects = AccountManager()
     
     USERNAME_FIELD = 'email'    # this allows user to sign in with their email address rather than a user name
+    REQUIRED_FIELDS = ['f_name', 'l_name']
     
     def __str__(self):
         return self.email

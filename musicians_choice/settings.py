@@ -30,7 +30,7 @@ SECRET_KEY = 'udyc$t%ziearxfpo)dpi2d56yaj&cj&8j&552ip_huah3(g*32'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'c5bd42e77b2442028181fab8a80ab35e.vfs.cloud9.us-east-1.amazonaws.com',    
+    '9e58793983324b5c84cba94706943545.vfs.cloud9.eu-west-1.amazonaws.com',    
 ]
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'

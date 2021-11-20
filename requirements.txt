@@ -1,0 +1,6 @@
+dj-database-url==0.5.0
+Django==2.1.15
+django-forms-bootstrap==3.1.0
+mysql-connector==2.2.9
+PyMySQL==1.0.2
+pytz==2021.3

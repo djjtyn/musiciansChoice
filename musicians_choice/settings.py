@@ -11,9 +11,11 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-# if os.path.exists("env.py"):
-#     import env_variables
-
+import dj_database_url
+# Import the file that has the environment variables
+if os.path.exists("env.py"):
+    import env as env_variables
+    
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -81,15 +83,20 @@ WSGI_APPLICATION = 'musicians_choice.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+# If there is a environment variable for the database use that databases details
+if env_variables:
+    print("Found hosted DB connection to use")
+    DATABASES = {
+        'default':  dj_database_url.parse(env_variables.get_db_url())
     }
-}
-
+else:
+    print("No hosted database details found. Using SQLite")
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
 
 # Set the custom user model as the authentication model
 AUTH_USER_MODEL = "users.CustomUser"

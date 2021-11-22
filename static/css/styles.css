@@ -1,0 +1,21 @@
+/*Styling for the page displaying the form to add new products*/
+.formIconContainer {
+    text-align:center;
+    margin: 2em 0 1.3em 0;
+}
+
+.formIconContainer i {
+    font-size: 13em;
+    color: green;
+    margin: .2em 0 .1em 0;
+}
+
+#productForm {
+    text-align:center;
+    padding: 1em;
+}
+
+#productForm .dropdown {
+    width:60%;
+}
+

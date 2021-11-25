@@ -30,7 +30,8 @@ SECRET_KEY = 'udyc$t%ziearxfpo)dpi2d56yaj&cj&8j&552ip_huah3(g*32'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '9e58793983324b5c84cba94706943545.vfs.cloud9.eu-west-1.amazonaws.com',    
+    '9e58793983324b5c84cba94706943545.vfs.cloud9.eu-west-1.amazonaws.com', 
+    'Musicianschoice-env.eba-xkifxnkn.eu-west-1.elasticbeanstalk.com',
 ]
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
@@ -143,7 +144,9 @@ USE_L10N = True
 USE_TZ = True
 
 # Connection to the static folder
+
 STATIC_URL = '/static/'
+
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'static')
 ]

@@ -31,7 +31,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '9e58793983324b5c84cba94706943545.vfs.cloud9.eu-west-1.amazonaws.com', 
-    'Musicianschoice-env.eba-xkifxnkn.eu-west-1.elasticbeanstalk.com',
+    'musiciansChoiceEnv.eba-2kdpvhap.us-west-1.elasticbeanstalk.com',
 ]
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
@@ -92,9 +92,19 @@ WSGI_APPLICATION = 'musicians_choice.wsgi.application'
 # If there is a environment variable for the database use that databases details
 if env_variables:
     print("Found hosted DB connection to use")
-    DATABASES = {
-        'default':  dj_database_url.parse(env_variables.get_db_url())
-    }
+    try:
+        DATABASES = {
+            'default':  dj_database_url.parse(env_variables.get_db_url())
+        }
+    # If there is an issue using the hosted database revert to sqlite 3
+    except:
+        print("Issue identified while trying to use hosted db. Switching to SQLite3")
+        DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            }
+        }
 else:
     print("No hosted database details found. Using SQLite")
     DATABASES = {

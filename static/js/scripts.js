@@ -3,7 +3,6 @@ const lettersNumbersParenthesesAndSpacesOnlyRegex = new RegExp("^.[A-z0-9() ]*$"
 const lettersNumbersParenthesesSpacesAndCertainCharactersOnlyRegex = new RegExp("^.[A-z0-9()?, \n]*$")
 
 $(document).ready(function() {
-
     // Prevent the instrument form from being submitted unless it is validated
     $("#productForm").on("submit", function(event) {
         // Get the form values
@@ -11,44 +10,73 @@ $(document).ready(function() {
         let model = $("input[name = 'model']");
         let type = $("input[name = 'type']");
         let description = $("textarea");
-        
+
         // Make sure the values entered are only valid characters
         if (lettersNumbersParenthesesSpacesAndCertainCharactersOnlyRegex.test(model.val()) && lettersNumbersParenthesesSpacesAndCertainCharactersOnlyRegex.test(description.val())) {
             return true;
-        } else {
+        }
+        else {
             //If values aren't matching values contained in regular expression stop the form from being submitted
             event.preventDefault();
-            let errorMsg = "Invalid characters detected\nLetters, numbers, spaces, dots, commas, parenthesis and qustion marks only accepted"
-            if (!lettersNumbersParenthesesSpacesAndCertainCharactersOnlyRegex.test(model.val())){
-                alert("Test");
-                displayFormError(model,errorMsg);
-            } else {
+            let errorMsg = "Invalid characters detected\nLetters, numbers, spaces, dots, commas, parenthesis and qustion marks only accepted";
+            if (!lettersNumbersParenthesesSpacesAndCertainCharactersOnlyRegex.test(model.val())) {
+                displayFormError(model, errorMsg);
+            }
+            else {
                 //Remove the error message if model name is valid 
                 removeFormError(model)
             }
-            if (lettersNumbersParenthesesSpacesAndCertainCharactersOnlyRegex.test(description.val())) {
-                displayFormError(description,errorMsg);
-            } else {
+            if (!lettersNumbersParenthesesSpacesAndCertainCharactersOnlyRegex.test(description.val())) {
+                displayFormError(description, errorMsg);
+            }
+            else {
                 removeFormError(description)
             }
         }
-    })
+    });
+
+    // Prevent the supplier form from being submitted unless it is validated
+    $("#supplierForm").on("submit", function(event) {
+        let supplier = $("input[name = 'supplier']");
+        // Make sure the values entered are only valid characters
+        if(lettersNumbersParenthesesAndSpacesOnlyRegex.test(supplier.val())) {
+            return true;
+        } else {
+           // If the value entered can't be validated display an error message
+           event.preventDefault();
+           displayFormError(supplier, "Invalid characters detected\nLetters, numbers, spaces and parenthesis only accepted");
+        }
+    });
+    
+    // Prevent the instrument type form from being submitted unless it is validated
+    $("#instrumentTypeForm").on("submit", function(event) {
+        let type = $("input[name = 'instrument_type']");
+        // Make sure the values entered are only valid characters
+        if(lettersNumbersParenthesesAndSpacesOnlyRegex.test(type.val())) {
+            return true;
+        } else {
+           // If the value entered can't be validated display an error message
+           event.preventDefault();
+           displayFormError(type, "Invalid characters detected\nLetters, numbers, spaces and parenthesis only accepted");
+        }
+    });
 })
 
+
 function displayFormError(element, errorMessage) {
-	//Avoid error duplication to check if error message is already present
-	if (element.parent().children().last()[0].localName != "p") {
-		let formError = document.createElement("p");
-		formError.style.color = "red";
-		formError.innerHTML = errorMessage;
-		element.parent().append(formError);
-	}
+    //Avoid error duplication to check if error message is already present
+    if (element.parent().children().last()[0].localName != "p") {
+        let formError = document.createElement("p");
+        formError.style.color = "red";
+        formError.innerHTML = errorMessage;
+        element.parent().append(formError);
+    }
 }
 
 function removeFormError(element) {
-	if (element.parent().children().last()[0].localName == "p") {
-		element.parent().children('p').remove();
-	}
+    if (element.parent().children().last()[0].localName == "p") {
+        element.parent().children('p').remove();
+    }
 }
 
 // // Method to display a button to add data to the database from the InstrumentForm
@@ -70,7 +98,7 @@ function removeFormError(element) {
 //                 }, 5000
 //             );
 //     });
-    
+
 //     if (enteredValue != "") {
 //         let matchAmount = 0;;
 //         // Convert the value entered to lower case
@@ -117,4 +145,3 @@ function removeFormError(element) {
 //     // Ensure the details are validated before being submitted to the database
 //         console.log("clicked")
 // }
-

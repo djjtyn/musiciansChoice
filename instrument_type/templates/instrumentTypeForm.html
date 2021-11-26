@@ -1,0 +1,23 @@
+{% extends 'base.html' %} {% block page_title %}Add Instrument Type{% endblock %} {% block content %}
+<!--If there are existing suppliers, list them-->
+{% if instrument_types|length > 0 %}
+    <h3>Current instruments are listed below</h3>
+    {% for instrument in instrument_types %}
+        <span class="text-nowrap">{{  instrument.type }}</span> 
+    {% endfor %}
+{% endif %}
+<div class="formIconContainer">
+    <i class="fas fa-music"></i>
+    <p>Submit form below to add a new instrument</p>
+    <h1>Add New Instrument Type</h1>
+</div>
+<form method="post" id="instrumentTypeForm">
+    {% csrf_token %}
+    <!--Input for the supplier name-->
+    <div class="form-group">
+        <label for="type">Instrument Type:</label>
+        <input type="text" name="instrument_type" placeholder="Instrument Type" required>
+    </div>
+    <button class="btn btn-success">Submit</button>
+</form>
+{% endblock content %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %} {% block page_title %}Add Supplier{% endblock %} {% block content %}
+<!--If there are existing suppliers, list them-->
+{% if suppliers|length > 0 %}
+    <h3>Current suppliers are listed below</h3>
+    {% for supplier in suppliers %}
+        <span class="text-nowrap">{{  supplier.brand }}</span> 
+    {% endfor %} 
+{% endif %}
+<div class="formIconContainer">
+    <i class="fas fa-truck"></i>
+    <p>Submit form below to add a new supplier</p>
+    <h1>Add New Supplier</h1>
+</div>
+<form method="post" id="supplierForm">
+    {% csrf_token %}
+    <!--Input for the supplier name-->
+    <div class="form-group">
+        <label for="supplier">Supplier:</label>
+        <input type="text" name="supplier" placeholder="Supplier" required>
+    </div>
+    <button class="btn btn-success">Submit</button>
+</form>
+{% endblock content %}

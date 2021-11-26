@@ -1,5 +1,4 @@
 cffi==1.15.0
-cryptography==35.0.0
 dj-database-url==0.5.0
 Django==2.1.15
 django-forms-bootstrap==3.1.0

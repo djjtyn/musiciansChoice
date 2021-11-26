@@ -30,7 +30,7 @@
             <select class = "selectpicker" data-live-search = "true" name = "type" required>
                 <!--Display all instrument types already in the database-->
                 {% for type in types %}
-                    <option value = "{{ brand.id}}">{{ brand.brand}}</option>
+                    <option value = "{{ type.id }}">{{ type.type }}</option>
                 {% endfor %}
             </select>
         </div>
@@ -46,5 +46,6 @@
             <label for = "description">Product Description:</label>
             <textarea name = "description" placeholder = "Product Description"></textarea>
         </div>
+            <button class = "btn btn-success">Submit</button>
 	</form>
 {% endblock content %}

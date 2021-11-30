@@ -2,7 +2,9 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib import auth, messages
 from django.shortcuts import render, redirect, reverse
-from .forms import RegistrationForm, LoginForm
+from django.contrib.auth import get_user_model
+from .forms import  LoginForm
+from .models import CustomUser
 
 
 # Login Functionality
@@ -12,25 +14,25 @@ def login(request):
         messages.info(request, "You are currently logged in")
         return redirect(reverse('home'))
     else:
-        form = LoginForm()
+        #form = LoginForm()
         # If the form has just been submitted
         if request.method == "POST":
-            form = LoginForm(request.POST)
+           # form = LoginForm(request.POST)
             try:
-                if form.is_valid:
-                    user = auth.authenticate(email=request.POST['email'], password=request.POST['password'])
-                    # check if a user exists in the database matching the email address and password provided
-                    if user:
-                        auth.login(user=user, request=request)
-                        messages.info(request, "You are now logged in!")
-                        return redirect(reverse('home'))
-                    else:
-                        messages.info(request, "Login failed")
-                        return render(request, 'login.html', {'form': form})
+                #if form.is_valid:
+                user = auth.authenticate(email=request.POST['email'], password=request.POST['password'])
+                # check if a user exists in the database matching the email address and password provided
+                if user:
+                    auth.login(user=user, request=request)
+                    messages.info(request, "You are now logged in!")
+                    return redirect(reverse('home'))
+                else:
+                    messages.info(request, "Login failed")
+                    return render(request, 'login.html')
             except Exception as e:
                 print(e)
                 messages.info(request, "An error occurred logging in")
-                return render(request, 'login.html', {'form': form})
+                return render(request, 'login.html')
         # If the user isn't logged in, display the login page
         try:
             form = LoginForm()
@@ -47,23 +49,24 @@ def register(request):
     if not request.user.is_authenticated:
         # if the request is a post mapping, retrieve the submited forms details
         if request.method == "POST":
-            form = RegistrationForm(request.POST)
-            # make sure the form is validated before saving it
-            if form.is_valid():
-                form.save()
-                # retrieve the submitted forms values for email and password
-                email = form.cleaned_data.get('email')
-                password = form.cleaned_data.get('password1')
-                user_account = auth.authenticate(email=email, password=password)
-                
-                
-                
-            
-            
+            # Try to create a customer usign the form's submitted values
+            try:
+                # Make sure there isn't already a customer linked to that email address
+                if CustomUser.objects.filter(email__iexact = request.POST.get('email')).exists():
+                    messages.info(request, "An issue occured registering this account holder details")
+                    return render(request, 'register.html')
+                # If the email address is unique, register that user
+                get_user_model().objects.create_customer(request.POST.get('f_name'), request.POST.get('l_name'), request.POST.get('email'), request.POST.get('password'))
+                # Log the user in and redirect ot the home screen
+                auth.authenticate(email=request.POST.get('email'), password=request.POST.get('password'))
+                messages.success(request, "You have successfully registered and can now log in")
+                return redirect(reverse('login_form'))
+            except:
+                messages.info(request, "There was an issue creating this account")
+                return render(request, 'register.html')
         else:
             # If the request is a get mapping display, the registration form
-            form = RegistrationForm()
-            return render(request, 'register.html', {'form': form})
+            return render(request, 'register.html')
     else :
         # If the user is already logged in, redirect them to the home page
         messages.info(request, "Logged in users cannot access the Registration Form")

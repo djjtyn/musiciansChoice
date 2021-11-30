@@ -61,9 +61,6 @@ class AccountManager(BaseUserManager):
             print("There was an issue creating this superuser")
             
 
-            
-
-    
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     f_name = models.CharField(verbose_name = 'First Name', max_length = 40, default = '')
     l_name = models.CharField(verbose_name = 'Last Name', max_length = 40, default = '')

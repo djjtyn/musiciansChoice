@@ -14,3 +14,7 @@ class Instrument(models.Model):
     
     def __str__(self):
         return f"{self.brand} {self.name}" 
+        
+class InstrumentPicture(models.Model):
+    pictureUrl = models.CharField(max_length = 2048)
+    instrument = models.ForeignKey(Instrument, on_delete = models.CASCADE)

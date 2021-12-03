@@ -55,6 +55,9 @@ INSTALLED_APPS = [
     'instrument_type',
     'instruments',
     'orders',
+    'storages',
+    'cart',
+    'payment',
 ]
 
 MIDDLEWARE = [
@@ -80,6 +83,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'cart.contexts.cart',
             ],
         },
     },
@@ -154,9 +158,22 @@ USE_L10N = True
 USE_TZ = True
 
 # Connection to the static folder
-
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
+
+#Stripe Details
+STRIPE_PUBLISHABLE_KEY = env_variables.get_stripe_publishable()
+STRIPE_SECRET_KEY = env_variables.get_stripe_secret()
+
+#AWS S3 Details
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_STORAGE_BUCKET_NAME = 'musicianschoice'
+AWS_S3_REGION_NAME = 'eu-west-1'
+AWS_ACCESS_KEY = env_variables.get_aws_access_key()
+AWS_SECRET_ACCESS_KEY = env_variables.get_aws_secret_key()
+
+
+AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}%s.s3.amazonaws.com"

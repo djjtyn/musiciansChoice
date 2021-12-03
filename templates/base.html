@@ -11,6 +11,7 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
 	<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+		<script src="https://js.stripe.com/v3/"></script>
 </head>
 
 <body>
@@ -46,9 +47,13 @@
 					</li>
 				{% else %}
 					<li class="nav-item">
-						<a class="nav-link" href="">
+						<a class="nav-link" href="{% url 'cart:view_cart' %}">
 							<i class="fa fa-shopping-cart"></i>Cart
-						</a>
+							                        <!--If quantity in cart is greater than 0 show amount-->
+						{% if product_count > 0 %}
+						<sup class="badge badge-warning">{{ product_count }}</sup>
+						{% endif %}
+							</a>
 					</li>
 				{% endif %}
 				<!--if user is logged in, display heading to logout otherwise display headings to login and register-->

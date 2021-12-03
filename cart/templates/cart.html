@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block page_title %}View Cart{% endblock %}
+{% block content %}
+<h1>View Cart</h1>
+<div class="container-fluid">
+<!--Display a row for every item in users cart-->
+{% for product in cart_items %}
+<div class="row">
+    <div class="col-sm-12 col-md-3">
+        <i class="fas fa-guitar"></i>
+    </div>
+    <div class="col-sm-12 col-md-7">
+        <h3>Product:{{product.instrument.brand}} {{product.instrument.name}}</h3>
+    </div>
+    <div class="col-sm-12 col-md-2">
+        <h6>Qty: {{ product.quantity}} @ &euro;{{ product.instrument.cost }} each</h6>
+        <h5>Subtotal: {{ product.subTotal }}</h5>
+    </div>
+</div>
+{% endfor %}
+<!--If there are items in the cart, display buttons for emptying the cart or proceeding to checkout-->
+{% if cart_items %}
+<div class="row">
+    <div class="col-sm-12 offset-md-10">
+        <h4>Total: {{total}}</h4>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 offset-10">
+        <a href="{% url 'cart:empty_cart' %}"><button class = "btn btn-primary"><i class="fas fa-check-circle"></i>Empty Cart</button></a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 offset-10">
+        <a href="{% url 'payment_form' %}"><button class = "btn btn-success"><i class="fas fa-check-circle"></i>Checkout</button></a>
+    </div>
+</div>
+{% endif %}
+{% endblock content %}
+</div>

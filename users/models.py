@@ -66,7 +66,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     l_name = models.CharField(verbose_name = 'Last Name', max_length = 40, default = '')
     email = models.EmailField(verbose_name = 'email', max_length = 40, unique = True)
     member_since = models.DateTimeField(verbose_name = 'member since', auto_now_add = True) # this variable value is automatically set wit hthe current date/time when account is created
-    last_login = models.DateTimeField(verbose_name = 'last login', auto_now = True) # this variable will be overwritten wit ha new value everytime th euser logs in
+    last_login = models.DateTimeField(verbose_name = 'last login', auto_now = True) # this variable will be overwritten with a new value everytime the user logs in
     is_admin = models.BooleanField(default = False)
     is_active = models.BooleanField(default = True)
     is_staff = models.BooleanField(default = False)

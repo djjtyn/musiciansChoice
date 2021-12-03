@@ -8,6 +8,7 @@ from .models import Instrument
 import traceback
 
 
+
 # This method will only be invoked if the user is a logged in staff member
 @staff_member_required
 def product_form(request):

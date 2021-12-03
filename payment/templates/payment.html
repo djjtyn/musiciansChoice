@@ -1,0 +1,62 @@
+{% extends 'base.html' %} {% block page_title %}Add Product{% endblock %} {% block content %}
+<div class="container-fluid">
+    <form method="post" id="paymentForm">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <div class="formIconContainer">
+                    <i class="far fa-credit-card"></i>
+                    <h1>Payment Details</h1>
+                </div>
+                <div class="form-group">
+                    <label for="cardholder_name">Cardholder name:</label>
+                    <input type="text" name="cardholder_name">
+                </div>
+                <div class="form-group">
+                    <div id="cardNumber"></div>
+                </div>
+                <div class="form-group">
+                    <div id="cardExpiry"></div>
+                </div>
+                <div class="form-group">
+                    <div id="cardCvc"></div>
+                </div>
+                <div id="paymentComplete" role="alert"></div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <div class="formIconContainer">
+                    <i class="fas fa-truck"></i>
+                    <h1>Delivery Details</h1>
+                </div>
+                <div class="form-group">
+                    <label for="addressOne">Address Line 1:</label>
+                    <input type="text" name="addressOne" required>
+                </div>
+                <div class="form-group">
+                    <label for="addressTwo">Address line 2:</label>
+                    <input type="text" name="addressTwo" required>
+                </div>
+                <div class="form-group">
+                    <label for="addressThree">Address line 3:</label>
+                    <input type="text" name="addressThree" required>
+                </div>
+                <div class="form-group">
+                    <label for="postCode">Postcode:</label>
+                    <input type="text" name="postCode" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone No:</label>
+                    <input type="text" name="phonee" required>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+             <div class="spinner hidden" id="spinner"></div>
+            <button class="btn btn-success">Pay &#8364 {{total}}</button>
+        </div>
+    </form>
+</div>
+<!--Forms for delivery address and payment details-->
+
+
+{% endblock content %}

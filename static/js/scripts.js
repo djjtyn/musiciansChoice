@@ -1,8 +1,49 @@
 //GLobal regular expressions used to validate forms
+const lettersOnlyRegex = new RegExp("^.[A-z ]*$");
 const lettersNumbersParenthesesAndSpacesOnlyRegex = new RegExp("^.[A-z0-9() ]*$");
 const lettersNumbersParenthesesSpacesAndCertainCharactersOnlyRegex = new RegExp("^.[A-z0-9()?, \n]*$")
 
 $(document).ready(function() {
+    
+     // Prevent the instrument form from being submitted unless it is validated
+     $("#registrationForm").on("submit", function(event) {
+        // Get the form values
+        let fName = $("input[name = 'f_name']");
+        let lName = $("input[name = 'l_name']");
+        let email = $("input[name = 'email']");
+        let password = $("input[name = 'password']");
+        let passwordConfirm = $("input[name = 'password_confirm']");
+        
+        //If passwords provided match and the form only contains accepted characters, submit it
+        if((password.val() == passwordConfirm.val()) && (lettersOnlyRegex.test(fName.val()) && lettersOnlyRegex.test(lName.val()))) {
+            return true;
+        } else {
+            event.preventDefault();
+            // If the passwords dont match, display an error message
+			if (password.val() != passwordConfirm.val()) {
+				displayFormError(password, "Passwords don't match");
+				//Remove the error message if both passwords match after user changes values
+			} else {
+				removeFormError(password);
+			}
+			//If there is an error for user's submitted first name, display an error
+			if (!lettersOnlyRegex.test(fName.val())) {
+				displayFormError(fName, "Only letters can be accepted as inputs");
+				//Remove the error message if first name is valid 
+			} else {
+				removeFormError(fName);
+			}
+			//If there is an error for user's submitted last name, display an error
+			if (!lettersOnlyRegex.test(lName.val())) {
+				displayFormError(lName, "Only letters can be accepted as inputs");
+				//Remove the error message if last name is valid 
+			} else {
+				removeFormError(lName);
+			}
+        }
+     });
+     
+     
     // Prevent the instrument form from being submitted unless it is validated
     $("#productForm").on("submit", function(event) {
         // Get the form values
@@ -60,8 +101,84 @@ $(document).ready(function() {
            displayFormError(type, "Invalid characters detected\nLetters, numbers, spaces and parenthesis only accepted");
         }
     });
+    
+    // Stripe JS
+    let stripe = Stripe("pk_test_51K2dXzFGKYruxG0TBF3X93vMIo9hSKNBw74xfkocV5Atz6v1pyrhwpgfwUqXPWkPXKjERIXYdVrjBxcoaD6axKP400D1FM11fS");
+    let elements = stripe.elements();
+
+    let cardNumber = elements.create("cardNumber");
+	cardNumber.mount("#cardNumber");
+	cardNumber.on('change', ({ error }) => {
+		if (error) {
+			validInput = false;
+			displayFormError($("#cardNumber"), error.message);
+		} else {
+			validInput = true;
+			removeFormError($("#cardNumber"));
+		}
+	});
+    let cardExpiry = elements.create("cardExpiry");
+	cardExpiry.mount('#cardExpiry');
+	cardExpiry.on('change', ({ error }) => {
+		if (error) {
+			validInput = false;
+			displayFormError($("#cardExpiry"), error.message);
+		} else {
+			validInput = true;
+			removeFormError($("#cardExpiry"));
+		}
+	});
+	let cardCvc = elements.create('cardCvc');
+	cardCvc.mount('#cardCvc');
+	$("#paymentForm").on("submit", function (event) {
+	    event.preventDefault();
+	    loading(true);
+	    // Fetches a payment intent and captures the client secret
+        var response = fetch('create_payment_intent').then(function(response) {
+            return response.json();
+        }).then(function(responseJson) {
+            var clientSecret = responseJson.client_secret;
+            payWithCard(stripe, cardNumber, clientSecret);
+  // Call stripe.confirmCardPayment() with the client secret.
+});
+  });
 })
 
+function payWithCard(stripe, cardNumber, secretKey) {
+    alert(secretKey)
+	//Call the loading method to show signal payment has started 
+	loading(true);
+	let displayError = document.getElementById("card-errors")
+	stripe.confirmCardPayment(secretKey, {
+		payment_method: {
+			card: cardNumber,
+			billing_details: {
+				name: $("#cardHolderName").val()
+			}
+		}
+	}).then(function(result) {
+		if (result.error) {
+			displayError.textContent.textContent = result.error.message;
+		} else {
+			if (result.paymentIntent.status === 'succeeded') {
+				paymentComplete();
+			}
+		}
+	})
+}
+
+function loading(isLoading) {
+  if (isLoading) {
+    // Disable the button and show a spinner
+    document.querySelector("button").disabled = true;
+    document.querySelector("#spinner").classList.remove("hidden");
+    //document.querySelector("#button-text").classList.add("hidden");
+  } else {
+    document.querySelector("button").disabled = false;
+    document.querySelector("#spinner").classList.add("hidden");
+    document.querySelector("#button-text").classList.remove("hidden");
+  }
+}
 
 function displayFormError(element, errorMessage) {
     //Avoid error duplication to check if error message is already present
@@ -78,6 +195,8 @@ function removeFormError(element) {
         element.parent().children('p').remove();
     }
 }
+
+
 
 // // Method to display a button to add data to the database from the InstrumentForm
 // function checkInstrumentDetailsExist(element, modelType) {

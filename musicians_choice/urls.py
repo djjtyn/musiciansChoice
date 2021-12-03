@@ -8,5 +8,7 @@ urlpatterns = [
     path('addSupplier', include('brands.urls')),
     path('addInstrumentType', include('instrument_type.urls')),
     path('instruments/', include('instruments.urls')),
+    path('cart/', include('cart.urls')),
+    path('payment/', include('payment.urls')),
     path('admin/', admin.site.urls),
 ]

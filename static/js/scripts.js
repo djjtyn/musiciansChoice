@@ -138,14 +138,13 @@ $(document).ready(function() {
             return response.json();
         }).then(function(responseJson) {
             var clientSecret = responseJson.client_secret;
-            payWithCard(stripe, cardNumber, clientSecret);
-  // Call stripe.confirmCardPayment() with the client secret.
-});
-  });
+            return payWithCard(stripe, cardNumber, clientSecret);
+        });
+        $(this).unbind('submit').submit()
+    });
 })
 
 function payWithCard(stripe, cardNumber, secretKey) {
-    alert(secretKey)
 	//Call the loading method to show signal payment has started 
 	loading(true);
 	let displayError = document.getElementById("card-errors")
@@ -158,7 +157,7 @@ function payWithCard(stripe, cardNumber, secretKey) {
 		}
 	}).then(function(result) {
 		if (result.error) {
-			displayError.textContent.textContent = result.error.message;
+			displayFormError($("#cardExpiry"), result.error.message);
 		} else {
 			if (result.paymentIntent.status === 'succeeded') {
 				paymentComplete();
@@ -167,6 +166,19 @@ function payWithCard(stripe, cardNumber, secretKey) {
 	})
 }
 
+//The method below is called when payment is successful
+// function paymentComplete(){
+// 	//create a form
+// 	let requestId = document.getElementById("requestId").value;
+// 	let form = document.createElement("form");
+// 	let formAction = requestId + "/success";
+// 	form.setAttribute("action", formAction);
+// 	form.setAttribute("method", "get");
+// 	document.body.appendChild(form);
+// 	form.submit();
+// }
+
+//Method to show user their payment is processing
 function loading(isLoading) {
   if (isLoading) {
     // Disable the button and show a spinner

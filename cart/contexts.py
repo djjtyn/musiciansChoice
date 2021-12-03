@@ -11,6 +11,6 @@ def cart(request):
         instrument = Instrument.objects.get(pk = id)
         total += quantity * instrument.cost
         product_count += quantity
-        cart_items.append({'id': id, 'quantity': quantity, 'instrument':instrument, 'subTotal': quantity * instrument.cost})
+        cart_items.append({'id': id, 'quantity': quantity, 'instrument':instrument, 'subTotal': quantity * instrument.cost, 'total' : total})
     return { 'cart_items':cart_items, 'total': total, 'product_count': product_count}
     

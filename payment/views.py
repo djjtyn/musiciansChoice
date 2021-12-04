@@ -47,7 +47,6 @@ def payment_form(request):
 
         #print("Post")
     # If the request is a get request, display forms required for payment
-    print(request.session['cart'])
     return render(request, "payment.html")
     
     # Method to invoke Stripe API

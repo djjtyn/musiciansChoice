@@ -5,6 +5,7 @@ from brands.models import Brand
 from instrument_type.models import InstrumentType
 from django.contrib import messages
 from .models import Instrument
+from .s3_utils import S3Utils
 import traceback
 
 
@@ -12,7 +13,7 @@ import traceback
 # This method will only be invoked if the user is a logged in staff member
 @staff_member_required
 def product_form(request):
-    # If the ofrm has been submitted
+    # If the form has been submitted
     if request.method == "POST":
         try:
             # Get the brand and instrument type instances
@@ -26,8 +27,19 @@ def product_form(request):
             instrument.instrument_type = type
             instrument.brand = brand
             instrument.save()
+            # If a picture was supplied in the form upload it to S3
+            if request.POST.get('picture') != "":
+                try:
+                    image = request.FILES["picture"]
+                    file_path = f"testing"
+                    #image.save(file_path)
+                    #print(image)
+                    #response = s3_client.upload_file ("musicianschoice" , file_path, image)
+                except:
+                    messages.info(request, "There was an issue creating this instrument")
+                    traceback.print_exc()
         except:
-            messages.info(request, "There was an issue creating this instrument")
+            messages.info(request, "There was an issue in the overall process")
             traceback.print_exc()
     # If the request is a get request get all the product brands and instrument types already in the db
     brands = Brand.objects.all().order_by('brand')

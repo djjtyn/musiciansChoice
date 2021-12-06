@@ -28,11 +28,11 @@ def login(request):
                     return redirect(reverse('home'))
                 else:
                     messages.info(request, "Login failed")
-                    return render(request, 'login.html')
+                    return redirect(reverse('index'))
             except Exception as e:
                 print(e)
                 messages.info(request, "An error occurred logging in")
-                return render(request, 'login.html')
+                return redirect(reverse('login_form'))
         # If the user isn't logged in, display the login page
         try:
             form = LoginForm()

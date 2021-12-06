@@ -1,56 +1,73 @@
-{% extends 'base.html' %}
-{% block page_title %}Add Product{% endblock %}
-{% block content %}
-    <div class = "formIconContainer">
-        <i class="far fa-play-circle"></i>
-        <p>Submit form below to add a new product</p>
-        <h1>Add New Instrument</h1>
-    </div>
-    <form method="post" id = "productForm">
+{% extends 'base.html' %} {% block page_title %}Add Product{% endblock %} {% block content %}
+<div class="formIconContainer">
+    <i class="far fa-play-circle"></i>
+    <p>Submit form below to add a new product</p>
+    <h1>Add New Instrument</h1>
+</div>
+<div class="container-fluid">
+    <form method="post" id="productForm" enctype="multipart/form-data">
         {% csrf_token %}
-        <!--Input for the products brand-->
-        <div class = "form-group">
-            <label for = "brand">Manufacturer: </label>
-            <select class = "selectpicker" data-live-search = "true" name = "brand" required>
-                <!--Display all brands already in the database-->
-                <option >Select Manufactorer</option>
-                {% for brand in brands %}
-                    <option value = "{{ brand.id}}">{{ brand.brand}}</option>
-                {% endfor %}
-            </select>
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <!--Input for the products brand-->
+                <div class="form-group">
+                    <label for="brand">Manufacturer: </label>
+                    <select class="selectpicker" data-live-search="true" name="brand" data-width="100%" required>
+                            <!--Display all brands already in the database-->
+                            <option >Select Manufactorer</option>
+                            {% for brand in brands %}
+                                <option value = "{{ brand.id}}">{{ brand.brand}}</option>
+                            {% endfor %}
+                        </select>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <!--Input for the instrument type-->
+                <div class="form-group">
+                    <label for="type">Type:</label>
+                    <select class="selectpicker" data-live-search="true" name="type" data-width="100%" required>
+                    <!--Display all instrument types already in the database-->
+                    {% for type in types %}
+                        <option value = "{{ type.id }}">{{ type.type }}</option>
+                    {% endfor %}
+                </select>
+                </div>
+            </div>
         </div>
         <!--Input for the product name-->
-        <div class = "form-group">
-            <label for = "model">Model:</label>
-            <input type = "text" name = "model" placeholder = "Model" required>
+        <div class="form-group">
+            <label for="model">Model:</label>
+            <input type="text" name="model" placeholder="Model" required>
         </div>
-        <!--Input for the instrument type-->
-        <div class = "form-group">
-            <label for = "type">Type:</label>
-            <select class = "selectpicker" data-live-search = "true" name = "type" required>
-                <!--Display all instrument types already in the database-->
-                {% for type in types %}
-                    <option value = "{{ type.id }}">{{ type.type }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <!--Input for the product stock and cost-->
-        <div class = "form-group">
-            <label for = "stock">Stock:</label>
-            <input type = "number" name = "stock" placeholder = "Stock Amount" min = "0">
-            <label for = "price">Price: &euro;</label>
-            <input type = "number" name = "price" placeholder = "Price" min = "0">
-        </div>
-        <!--Input for the product picture-->
-        <div class = "form-group">
-            <label for = "picture">Upload picture</label>
-            <input type = "file" name = "picture" placeholder = "Upload" />
+        <div class="row">
+            <div class="col-sm-12 col-md-3">
+                <!--Input for the product stock-->
+                <div class="form-group">
+                    <label for="stock">Stock:</label>
+                    <input type="number" name="stock" placeholder="Stock Amount" min="0" required>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-3">
+                <!--Input for the product price-->
+                <div class="form-group">
+                    <label for="price">Price: &euro;</label>
+                    <input type="number" name="price" placeholder="Price" min="0" required>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <!--Input for the product picture-->
+                <div class="form-group">
+                    <label for="picture">Upload picture</label>
+                    <input type="file" name="picture" placeholder="Upload" />
+                </div>
+            </div>
         </div>
         <!--Input for the product description-->
-        <div class = "form-group">
-            <label for = "description">Product Description:</label>
-            <textarea name = "description" placeholder = "Product Description"></textarea>
+        <div class="form-group">
+            <label for="description">Product Description:</label>
+            <textarea name="description" placeholder="Product Description"></textarea>
         </div>
-            <button class = "btn btn-success">Submit</button>
-	</form>
+        <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+</div>
 {% endblock content %}

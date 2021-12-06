@@ -1,4 +1,23 @@
-/*Styling for the page displaying the form to add new products*/
+/*Generic Styling*/
+body {
+    box-sizing: border-box;
+}
+
+/*Listing items already in database on pages with forms*/
+.existingItems {
+    text-align: center;
+    margin:2em auto;
+}
+
+.existingItems span {
+    color:white;
+    padding:0 1em;
+	margin:.2em;
+	background-color:red;
+	border-radius:1em;
+}
+
+/*FORMS*/
 .formIconContainer {
     text-align:center;
     margin: 2em 0 1.3em 0;
@@ -10,12 +29,50 @@
     margin: .2em 0 .1em 0;
 }
 
-#productForm {
-    text-align:center;
-    padding: 1em;
+.authForm {
+    width:80%;
+    margin: 1em auto;
+    border:.1em solid black;
+    border-radius:1em;
+    padding:1em;
 }
 
-#productForm .dropdown {
-    width:60%;
+.authForm button {
+    display:block;
+    width:auto;
+    margin:1em auto;
 }
+
+/*Page for adding new instrument types, suppliers*/
+#instrumentTypeForm,
+#supplierForm,
+#productForm
+{
+    width:80%;
+    margin: 1em auto;
+    border:.1em solid black;
+    border-radius:1em;
+    padding:1em;
+}
+
+#instrumentTypeForm input,
+#supplierForm input,
+#productForm input[type=text],
+#productForm textarea {
+    width:100%;
+}
+
+#productForm textarea {
+    height:6em;
+}
+
+#instrumentTypeForm button,
+#supplierForm button,
+#productForm button[type = 'submit']{
+    display:block;
+    width:auto;
+    margin:1em auto;
+}
+
+
 

@@ -4,7 +4,7 @@ from .forms import InstrumentForm
 from brands.models import Brand
 from instrument_type.models import InstrumentType
 from django.contrib import messages
-from .models import Instrument
+from .models import Instrument, InstrumentPicture
 from .s3_utils import S3Utils
 import traceback
 
@@ -30,8 +30,10 @@ def product_form(request):
             # If a picture was supplied in the form upload it to S3
             if request.POST.get('picture') != "":
                 try:
-                    image = request.FILES["picture"]
-                    file_path = f"testing"
+                    instrumentPic = InstrumentPicture()
+                    instrumentPic.instrument = instrument
+                    instrumentPic.image = request.FILES['picture']
+                    instrumentPic.save()
                     #image.save(file_path)
                     #print(image)
                     #response = s3_client.upload_file ("musicianschoice" , file_path, image)

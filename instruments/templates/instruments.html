@@ -27,6 +27,10 @@
                             <input class = "btn btn-primary" type="submit" value="Add to Cart"/>
                         </form>
                     <!--If stock is 0 display a button requesting to be notified when product is back in stock-->
+                    {% else %}
+                        <a href = "{% url 'sns_notifications:stock_notify' instrument.id %}">
+                            <button class = "btn btn-warning">Notify me when stock arrives</button>
+                        </a>
                     {% endif %}
 				</div>
 			</div>

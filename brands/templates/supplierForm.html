@@ -1,10 +1,12 @@
 {% extends 'base.html' %} {% block page_title %}Add Supplier{% endblock %} {% block content %}
 <!--If there are existing suppliers, list them-->
 {% if suppliers|length > 0 %}
-    <h3>Current suppliers are listed below</h3>
-    {% for supplier in suppliers %}
-        <span class="text-nowrap">{{  supplier.brand }}</span> 
-    {% endfor %} 
+    <div class="existingItems">
+        <h3>Current suppliers are listed below</h3>
+        {% for supplier in suppliers %}
+            <span class="text-nowrap">{{  supplier.brand }}</span> 
+        {% endfor %} 
+    </div>
 {% endif %}
 <div class="formIconContainer">
     <i class="fas fa-truck"></i>

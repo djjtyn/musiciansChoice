@@ -17,4 +17,5 @@ class Instrument(models.Model):
         
 class InstrumentPicture(models.Model):
     pictureUrl = models.CharField(max_length = 2048)
+    image = models.ImageField(upload_to='img/')
     instrument = models.ForeignKey(Instrument, on_delete = models.CASCADE)

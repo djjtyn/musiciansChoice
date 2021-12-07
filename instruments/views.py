@@ -5,7 +5,6 @@ from brands.models import Brand
 from instrument_type.models import InstrumentType
 from django.contrib import messages
 from .models import Instrument, InstrumentPicture
-from .s3_utils import S3Utils
 import traceback
 
 
@@ -34,9 +33,6 @@ def product_form(request):
                     instrumentPic.instrument = instrument
                     instrumentPic.image = request.FILES['picture']
                     instrumentPic.save()
-                    #image.save(file_path)
-                    #print(image)
-                    #response = s3_client.upload_file ("musicianschoice" , file_path, image)
                 except:
                     messages.info(request, "There was an issue creating this instrument")
                     traceback.print_exc()

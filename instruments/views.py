@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from django.contrib.admin.views.decorators import staff_member_required
-from .forms import InstrumentForm
 from brands.models import Brand
 from instrument_type.models import InstrumentType
 from django.contrib import messages
 from .models import Instrument, InstrumentPicture
 import traceback
+from django.conf import settings
 
 
 
@@ -46,6 +46,14 @@ def product_form(request):
     return render(request, "InstrumentForm.html", {'brands': brands, 'types': types})
     
 def view_instruments(request):
+    s3_bucket_url =  settings.INSTRUMENT_IMAGE_URL
     # Get all the instruments from the database
     instruments = Instrument.objects.all().order_by('cost')
-    return render(request, "instruments.html", {'instruments' : instruments});
+    instrument_images = InstrumentPicture.objects.all()
+    return render(request, "instruments.html", {'instruments' : instruments, 'image': instrument_images, 'bucket': s3_bucket_url});
+    
+def view(request, instrument_id):
+    s3_bucket_url =  settings.INSTRUMENT_IMAGE_URL
+    # Retrieve the selected instruments details
+    product = Instrument.objects.get(pk=instrument_id)
+    return render(request, "instrument.html", {'product': product, 'bucket': s3_bucket_url})

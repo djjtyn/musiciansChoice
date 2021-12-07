@@ -176,3 +176,4 @@ AWS_S3_REGION_NAME = 'eu-west-1'
 AWS_ACCESS_KEY_ID = env_variables.get_aws_access_key()
 AWS_SECRET_ACCESS_KEY = env_variables.get_aws_secret_key()
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+INSTRUMENT_IMAGE_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/"

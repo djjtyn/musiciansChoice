@@ -7,7 +7,7 @@ import traceback
 def notify_when_product_is_back_in_stock(request, instrument_id):
     # Create a topic if it doesn't exist already, if it does exist get the topics ARN
     try:
-        sns_client = boto3.resource('sns')
+        sns_client = boto3.client('sns')
         response = sns_client.create_topic(Name="test")
         print(response["TopicArn"])
     except:

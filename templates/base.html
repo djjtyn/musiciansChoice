@@ -29,7 +29,7 @@
 					<a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link active" aria-current="page" href="{% url 'view_instruments' %}">View Instruments</a>
+					<a class="nav-link active" aria-current="page" href="{% url 'instrument:view_instruments' %}">View Instruments</a>
 				</li>
 			</ul>
 			<!--Navbar elements on right-->
@@ -40,7 +40,7 @@
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<a class="dropdown-item" href="{% url 'instrument_type_form' %}">Add Instrument Type</a>
-							<a class="dropdown-item" href="{% url 'product_form' %}">Add Product</a>
+							<a class="dropdown-item" href="{% url 'instrument:product_form' %}">Add Product</a>
 							<a class="dropdown-item" href="{% url 'supplier_form' %}">Add Supplier</a>
 							<a class="dropdown-item" href="#">Another action</a>
 						</div>

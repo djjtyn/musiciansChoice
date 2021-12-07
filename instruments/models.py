@@ -15,6 +15,9 @@ class Instrument(models.Model):
     def __str__(self):
         return f"{self.brand} {self.name}" 
         
+    def get_image(self):
+        return InstrumentPicture.objects.get(instrument = self.id)
+        
 class InstrumentPicture(models.Model):
     pictureUrl = models.CharField(max_length = 2048)
     image = models.ImageField(upload_to='img/')

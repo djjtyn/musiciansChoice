@@ -30,7 +30,7 @@ SECRET_KEY = 'udyc$t%ziearxfpo)dpi2d56yaj&cj&8j&552ip_huah3(g*32'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '9e58793983324b5c84cba94706943545.vfs.cloud9.eu-west-1.amazonaws.com', 
+    '135a869bdf7049fa82691162b8a41ef4.vfs.cloud9.eu-west-1.amazonaws.com', 
     'musiciansChoiceEnv.eba-2kdpvhap.us-west-1.elasticbeanstalk.com',
 ]
 
@@ -171,7 +171,7 @@ STRIPE_SECRET_KEY = env_variables.get_stripe_secret()
 
 #AWS S3 Details
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-AWS_STORAGE_BUCKET_NAME = 'musicianschoice'
+AWS_STORAGE_BUCKET_NAME = 'musicianschoicepics'
 AWS_S3_REGION_NAME = 'eu-west-1'
 AWS_ACCESS_KEY_ID = env_variables.get_aws_access_key()
 AWS_SECRET_ACCESS_KEY = env_variables.get_aws_secret_key()

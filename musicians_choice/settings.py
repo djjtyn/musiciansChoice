@@ -167,7 +167,7 @@ STATICFILES_DIRS = [
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-if env_variables:
+if os.path.exists("env.py"):
     #Stripe Details
     STRIPE_PUBLISHABLE_KEY = env_variables.get_stripe_publishable()
     STRIPE_SECRET_KEY = env_variables.get_stripe_secret()

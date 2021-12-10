@@ -165,15 +165,27 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 
-#Stripe Details
-STRIPE_PUBLISHABLE_KEY = env_variables.get_stripe_publishable()
-STRIPE_SECRET_KEY = env_variables.get_stripe_secret()
-
-#AWS S3 Details
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+if env_variables:
+    #Stripe Details
+    STRIPE_PUBLISHABLE_KEY = env_variables.get_stripe_publishable()
+    STRIPE_SECRET_KEY = env_variables.get_stripe_secret()
+    #AWS S3 Details
+    AWS_ACCESS_KEY_ID = env_variables.get_aws_access_key()
+    AWS_SECRET_ACCESS_KEY = env_variables.get_aws_secret_key()
+
+else:
+    #Stripe Details
+    STRIPE_PUBLISHABLE_KEY = os.environ.get('stripe_publishable')
+    STRIPE_SECRET_KEY = os.environ.get('stripe_secret')
+    #AWS S3 Details
+    AWS_ACCESS_KEY_ID = os.environ.get('aws_access_key')
+    AWS_SECRET_ACCESS_KEY = os.environ.get('aws_secret_key')
+  
 AWS_STORAGE_BUCKET_NAME = 'musicianschoicepics'
-AWS_S3_REGION_NAME = 'eu-west-1'
-AWS_ACCESS_KEY_ID = env_variables.get_aws_access_key()
-AWS_SECRET_ACCESS_KEY = env_variables.get_aws_secret_key()
+AWS_S3_REGION_NAME = 'eu-west-1' 
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-INSTRUMENT_IMAGE_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/"
+INSTRUMENT_IMAGE_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/" 
+
+    

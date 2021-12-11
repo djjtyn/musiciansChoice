@@ -18,6 +18,16 @@ class Instrument(models.Model):
     def get_image(self):
         return InstrumentPicture.objects.get(instrument = self.id)
         
+    def get_sorting_filter(self, sorting_filter):
+        if sorting_filter == "name":
+            return self.name
+        if sorting_filter == "stock_amount":
+            return self.stock_amount
+        if sorting_filter == "cost":
+            return self.cost
+        if sorting_filter == "brand":
+            return self.brand
+        
 class InstrumentPicture(models.Model):
     pictureUrl = models.CharField(max_length = 2048)
     image = models.ImageField(upload_to='img/')

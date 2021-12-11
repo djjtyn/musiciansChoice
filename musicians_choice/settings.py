@@ -31,7 +31,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '135a869bdf7049fa82691162b8a41ef4.vfs.cloud9.eu-west-1.amazonaws.com', 
-    'django-env.eba-f3mtanzm.eu-west-1.elasticbeanstalk.com',
+    'musicianschoiceenv.eba-f3mtanzm.eu-west-1.elasticbeanstalk.com',
+    
 ]
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'

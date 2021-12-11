@@ -84,4 +84,10 @@ body {
     text-align: center;
 }
 
+/*Styling for the cart*/
+.cartAdjustAmount form input {
+    width:3em;
+    text-align:center;
+}
+
 

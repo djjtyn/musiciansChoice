@@ -31,5 +31,13 @@ def add_to_cart(request, instrument_id):
     messages.success(request, "Your cart is now empty")
     return render(request, 'cart.html')
     
+def adjust_cart(request, instrument_id):
+    quantity = int(request.POST.get('quantity'))
+    # Get the item from the cart and adjust to the value submitted in the form
+    cart = request.session.get('cart',{})
+    cart[str(instrument_id)] = quantity
+    request.session['cart'] = cart
+    messages.success(request, "Your cart has been adjusted")
+    return render(request, 'cart.html')
 
     

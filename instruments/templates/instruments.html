@@ -6,12 +6,12 @@
 {% if instruments|length < 1 %}
     <h3>There are currently no instruments to display</h3>
 {%else %}
-<div class = "container">
-    <div class="row">
+<div class = "container-fluid">
+    <div class="row instrumentRow">
         <!--Create a card for each instruent in the database-->
         {% for instrument in instruments %}
             <div class="col-sm-3">
-                <div class="card">
+                <div class="card instrumentCard">
                     <!--If the instrument has an image, display it-->
                     {% if instrument.get_image %}
                         <img src = "{{bucket}}{{instrument.get_image.image}}">
@@ -23,6 +23,7 @@
                     <span>Cost:{{ instrument.cost }}</span><span>Stock:{{ instrument.stock_amount }}</span>
                     <h6>Product Description</h6>
                     <p>{{ instrument.description|truncatechars:7}}</p>
+                    <div class="cardButtonWrap">
                     <a href = "{% url 'instrument:view' instrument.id %}"><button class = "btn btn-success"><i class="fas fa-eye"></i>More Info</button></a>
                     <!--Form below will allow user to add multiple amounts of instrument to cart-->
                     {% if instrument.stock_amount > 0 %}
@@ -37,6 +38,7 @@
                             <button class = "btn btn-warning">Notify me when stock arrives</button>
                         </a>
                     {% endif %}
+                    </div>
 				</div>
 			</div>
 		{% endfor %}

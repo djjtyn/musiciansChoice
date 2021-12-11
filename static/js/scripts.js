@@ -1,7 +1,7 @@
 //GLobal regular expressions used to validate forms
 const lettersOnlyRegex = new RegExp("^.[A-z ]*$");
 const lettersNumbersParenthesesAndSpacesOnlyRegex = new RegExp("^.[A-z0-9() ]*$");
-const lettersNumbersParenthesesSpacesAndCertainCharactersOnlyRegex = new RegExp("^.[A-z0-9()?, \n]*$")
+const lettersNumbersParenthesesSpacesAndCertainCharactersOnlyRegex = new RegExp("^.[A-z0-9()?,\r\n]*$")
 
 $(document).ready(function() {
     

@@ -97,32 +97,32 @@ WSGI_APPLICATION = 'musicians_choice.wsgi.application'
 # If there is a environment variable for the database use that databases details
 # if env_variables:
 #     print("Found hosted DB connection to use")
-try:
-    if os.path.exists("env.py"):
-        DATABASES = {
-            'default':  dj_database_url.parse(env_variables.get_db_url())
-        }
-    else :
-        DATABASES = {
-            'default':  dj_database_url.parse(os.environ.get('db_url'))
-        }
-    # If there is an issue using the hosted database revert to sqlite 3
-except:
-        print("Issue identified while trying to use hosted db. Switching to SQLite3")
-        DATABASES = {
+# try:
+#     if os.path.exists("env.py"):
+#         DATABASES = {
+#             'default':  dj_database_url.parse(env_variables.get_db_url())
+#         }
+#     else :
+#         DATABASES = {
+#             'default':  dj_database_url.parse(os.environ.get('db_url'))
+#         }
+#     # If there is an issue using the hosted database revert to sqlite 3
+# except:
+#     print("Issue identified while trying to use hosted db. Switching to SQLite3")
+#     DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#         }
+#     }
+# else:
+print("No hosted database details found. Using SQLite")
+DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-            }
         }
-# else:
-# print("No hosted database details found. Using SQLite")
-# DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.sqlite3',
-#             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#         }
-#     }
+    }
 
 # Set the custom user model as the authentication model
 AUTH_USER_MODEL = "users.CustomUser"

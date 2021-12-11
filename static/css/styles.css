@@ -74,5 +74,14 @@ body {
     margin:1em auto;
 }
 
+/*Page for viewing multiple instruments*/
+.instrumentCard {
+    padding:1em;
+    margin:1em;
+}
+
+.cardButtonWrap {
+    text-align: center;
+}
 
 

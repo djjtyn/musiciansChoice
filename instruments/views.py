@@ -6,6 +6,7 @@ from django.contrib import messages
 from .models import Instrument, InstrumentPicture
 import traceback
 from django.conf import settings
+from custom_library.library_methods_pkg.library_methods import MyMethods
 
 
 
@@ -48,7 +49,9 @@ def product_form(request):
 def view_instruments(request):
     s3_bucket_url =  settings.INSTRUMENT_IMAGE_URL
     # Get all the instruments from the database
-    instruments = Instrument.objects.all().order_by('cost')
+    instruments = Instrument.objects.all()
+    testLib = MyMethods()
+    testLib.sort_by(instruments, 0, len(instruments) -1 , "cost")
     instrument_images = InstrumentPicture.objects.all()
     return render(request, "instruments.html", {'instruments' : instruments, 'image': instrument_images, 'bucket': s3_bucket_url});
     

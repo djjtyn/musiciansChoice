@@ -140,6 +140,7 @@ $(document).ready(function() {
             var clientSecret = responseJson.client_secret;
             responseJson.payment_method = cardNumber;
             payWithCard(stripe, cardNumber, clientSecret);
+            event.currentTarget.submit();
         });
     });
 })
@@ -158,24 +159,20 @@ function payWithCard(stripe, cardNumber, secretKey) {
 	}).then(function(result) {
 		if (result.error) {
 			displayFormError($("#cardExpiry"), result.error.message);
-		} else {
-			if (result.paymentIntent.status === 'succeeded') {
-				paymentComplete();
-			}
-		}
+ 		}
 	})
 }
 
 //The method below is called when payment is successful
-function paymentComplete(){
-	//create a form
-	let form = document.createElement("form");
-	let formAction = "paymentSuccess"
-	form.setAttribute("action", formAction);
-	form.setAttribute("method", "get");
-	document.body.appendChild(form);
-	form.submit();
-}
+// function paymentComplete(){
+// 	//create a form
+// 	let form = document.createElement("form");
+// 	let formAction = "paymentSuccess"
+// 	form.setAttribute("action", formAction);
+// 	form.setAttribute("method", "get");
+// 	document.body.appendChild(form);
+// 	form.submit();
+// }
 
 //Method to show user their payment is processing
 function loading(isLoading) {

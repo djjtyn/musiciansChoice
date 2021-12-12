@@ -14,7 +14,6 @@ def login(request):
         messages.info(request, "You are currently logged in")
         return redirect(reverse('home'))
     else:
-        #form = LoginForm()
         # If the form has just been submitted
         if request.method == "POST":
            # form = LoginForm(request.POST)
@@ -25,6 +24,9 @@ def login(request):
                 if user:
                     auth.login(user=user, request=request)
                     messages.info(request, "You are now logged in!")
+                    # If the login page was displayed by user trying to access particular page, redirect user to the page they were trying to access
+                    if 'next' in request.GET:
+                        return redirect(request.GET['next'])
                     return redirect(reverse('home'))
                 else:
                     messages.info(request, "Login failed")

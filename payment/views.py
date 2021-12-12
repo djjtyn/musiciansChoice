@@ -4,13 +4,15 @@ from django.contrib import messages
 from instruments.models import Instrument
 from users.models import CustomUser
 from orders.models import Order, OrderLineItem
+from django.contrib.auth.decorators import login_required
 import stripe,json
 import traceback
 import os
 if os.path.exists("env.py"):
     import env as env_variables
 
-# Create your views here.
+# Method below requires user to login
+@login_required()
 def payment_form(request):
     # If the request is a post request
     if request.method=="POST":

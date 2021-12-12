@@ -1,7 +1,7 @@
 //GLobal regular expressions used to validate forms
 const lettersOnlyRegex = new RegExp("^.[A-z ]*$");
 const lettersNumbersParenthesesAndSpacesOnlyRegex = new RegExp("^.[A-z0-9() ]*$");
-const lettersNumbersParenthesesSpacesAndCertainCharactersOnlyRegex = new RegExp("^.[A-z0-9()?,\r\n]*$")
+const lettersNumbersParenthesesSpacesAndCertainCharactersOnlyRegex = new RegExp("^.[A-z0-9()?,\n\r ]*$")
 
 $(document).ready(function() {
     
@@ -53,7 +53,7 @@ $(document).ready(function() {
         let description = $("textarea");
 
         // Make sure the values entered are only valid characters
-        if (lettersNumbersParenthesesSpacesAndCertainCharactersOnlyRegex.test(model.val()) && lettersNumbersParenthesesSpacesAndCertainCharactersOnlyRegex.test(description.val())) {
+        if (lettersNumbersParenthesesSpacesAndCertainCharactersOnlyRegex.test(model.val())) {
             return true;
         }
         else {
@@ -162,6 +162,7 @@ function payWithCard(stripe, cardNumber, secretKey) {
  		}
 	})
 }
+
 
 //The method below is called when payment is successful
 // function paymentComplete(){

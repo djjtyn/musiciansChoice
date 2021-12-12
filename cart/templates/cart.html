@@ -5,23 +5,28 @@
 <div class="container-fluid">
 <!--Display a row for every item in users cart-->
 {% for product in cart_items %}
-<div class="row">
-    <div class="col-sm-12 col-md-3">
-        <i class="fas fa-guitar"></i>
-    </div>
-    <div class="col-sm-12 col-md-7">
-        <h3>Product:{{product.instrument.brand}} {{product.instrument.name}}</h3>
-    </div>
-    <div class="col-sm-12 col-md-2">
-        <h6>Qty: {{ product.quantity}} @ &euro;{{ product.instrument.cost }} each</h6>
-        <div class="cartAdjustAmount">
-            <form action = "{% url 'cart:adjust' product.instrument.id %}" method = "POST">
-                {% csrf_token %}
-                <input type="number" name="quantity" min = "0" max = "{{product.instrument.stock_amount}}" value = "{{product.quantity}}">
-                <button class = "btn btn-warning" type="submit" value="Submit"/>Adjust</button>
-            </form>
+<div class="cartRow">
+    <div class="row">
+        <div class="col-sm-12 col-md-3">
+            {% if product.instrument.get_image %}
+                <img src = "{{bucket}}{{product.instrument.get_image.image}}">
+            {% else %}
+                <i class="fas fa-music"></i>
+            {% endif %}
         </div>
-        <h5>Subtotal: {{ product.subTotal }}</h5>
+        <div class="col-sm-12 col-md-7">
+            <h3>Product:{{product.instrument.brand}} {{product.instrument.name}}</h3>
+        </div>
+        <div class="col-sm-12 col-md-2">
+            <h6>Qty: {{ product.quantity}} @ &euro;{{ product.instrument.cost }} each</h6>
+            <div class="cartAdjustAmount">
+                <form action = "{% url 'cart:adjust' product.instrument.id %}" method = "POST">
+                    {% csrf_token %}
+                    <input type="number" name="quantity" min = "0" max = "{{product.instrument.stock_amount}}" value = "{{product.quantity}}">
+                    <button class = "btn btn-warning" type="submit" value="Submit"/>Adjust</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 {% endfor %}

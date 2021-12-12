@@ -81,6 +81,11 @@ body {
     width:auto;
 }
 
+.instrumentCard img {
+    height:22em;
+    margin:1em 0;
+}
+
 
 
 .cardButtonWrap {
@@ -96,9 +101,54 @@ body {
 }
 
 /*Styling for the cart*/
+.cartRow {
+    border:.1em solid black;
+    border-radius:1em;
+    padding:1em;
+    margin:1em;
+    background-color:red;
+    height:12em;
+}
+
+.cartRow img {
+    width:10em;
+    height:10em;
+}
 .cartAdjustAmount form input {
     width:3em;
     text-align:center;
 }
 
+/*Styling for specific instrument pages */
+.specificInstrumentWrap {
+    background-color:red;
+}
+
+.specificInstrumentWrap img {
+    width:30em;
+    height:40em;
+    max-width:100%;
+    text-align:center;
+}
+
+.specificInstrumentWrap .instrumentTextBox {
+    color:blue;
+    padding:1em;
+    margin:2em 0 0 0;
+}
+
+.specificInstrumentWrap .instrumentTextBox p {
+    margin:2em 0;
+}
+
+.comments {
+    background-color:blue;
+    padding:1em;
+    margin:1em;
+    width:100%;
+}
+
+.comments h1 {
+    text-align:center;
+}
 

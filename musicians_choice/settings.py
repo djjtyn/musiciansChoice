@@ -116,8 +116,8 @@ WSGI_APPLICATION = 'musicians_choice.wsgi.application'
 #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #         }
 #     }
-# else:
-# print("No hosted database details found. Using SQLite")
+
+print("No hosted database details found. Using SQLite")
 DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',

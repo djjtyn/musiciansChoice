@@ -6,9 +6,6 @@ def cart_contents(request):
     cart_items = []
     total = 0
     product_count = 0
-    print(f"From Context: {cart.keys()}")
-    if '1' in cart.keys():
-        print("Exists")
     for id, quantity in cart.items():
         instrument  = Instrument.objects.get(pk = id)
         total += quantity * instrument.cost

@@ -78,10 +78,21 @@ body {
 .instrumentCard {
     padding:1em;
     margin:1em;
+    width:auto;
 }
 
+
+
 .cardButtonWrap {
+    max-width:100%;
     text-align: center;
+}
+
+.cardButtonWrap button {
+    display:block;
+    width:100%;
+    height:auto;
+    margin:1em;
 }
 
 /*Styling for the cart*/

@@ -47,14 +47,14 @@ def payment_form(request):
                 order_line.order = order
                 order_line.save()
                 instrument.stock_amount -= quantity
+                print(instrument.stock_amount)
                 instrument.save()
                 # empty the cart
                 request.session['cart'] = {}
-                messages.info(request, "Payment sucessfully processed") 
+                messages.info(request, "Your order has been successfully placed") 
         except:
             messages.info(request, "Theres was an issue creating the order details")  
             print(traceback.format_exc())
-        request.session['cart'] = cart
         return redirect ('instrument:view_instruments')
 
         #print("Post")
@@ -77,16 +77,11 @@ def create_payment_intent(request):
     try:
         stripe.api_key = env_variables.get_stripe_secret()
         intent = stripe.PaymentIntent.create(amount = int(total*100), currency = "eur", payment_method_types = ['card'],)
-        print(intent)
         # Retrieve the client secret key from the payment intent instance
         return JsonResponse({'client_secret': intent.client_secret})
     except:
         messages.info(request, "Theres was an issue connecting with Stripe")
         return render(request, "cart.html")
         
-def display_payment_success(request):
-    # Empty the cart
-    request.session['cart'] = {}
-    messages.info(request, "Your order has been successfully placed")
-    return redirect ('instrument:view_instruments')
+
 

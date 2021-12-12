@@ -23,10 +23,10 @@ def login(request):
                 # check if a user exists in the database matching the email address and password provided
                 if user:
                     auth.login(user=user, request=request)
-                    messages.info(request, "You are now logged in!")
                     # If the login page was displayed by user trying to access particular page, redirect user to the page they were trying to access
                     if 'next' in request.GET:
                         return redirect(request.GET['next'])
+                    messages.info(request, "You are now logged in!")
                     return redirect(reverse('home'))
                 else:
                     messages.info(request, "Login failed")

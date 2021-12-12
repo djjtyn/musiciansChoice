@@ -2,86 +2,44 @@
 {% block page_title %}View Instruments{% endblock %}
 {% block content %}
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-12">
-            <h1>{{ product.brand }} {{ product.name }}</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-        <!--If the instrument has an image, display it-->
-        {% if product.get_image %}
-            <img src = "{{bucket}}{{product.get_image.image}}">
-        {% endif %}
-         <h1>{{ product. }}</h1>
-        </div>
-    </div>
+    <div class="specificInstrumentWrap">
         <div class="row">
-            <div class="col-sm-12 col-md-4">
-                <h2>Type: {{ product.instrument_type }}</h2>
-                <h2>Price: {{ product.cost }}</h2>
-                <h2>In stock - {{product.stock_amount}}</h2>
-                <!--If there are multiple genre's, put a comma after each until the last genre-->
-                <th:block th:if="${review.filmId.genres.size()>1}">
-                    <span class="reviewCardHeaderSpan">Genres: </span>
-                    <span class="reviewCardSpan" th:each="genre: ${review.filmId.genres}" th:if="${genreStat.Index != review.filmId.genres.size()-1}" th:text="${genre.genre.name} + ', '">
-                    </span>
-                    <span class="reviewCardSpan" th:each="genre: ${review.filmId.genres}" th:if="${genreStat.Index == review.filmId.genres.size()-1}" th:text="${genre.genre.name}">
-                    </span>
-                    <br>
-                </th:block>
-                <th:block th:if="${review.filmId.genres.size()<=1}">
-                    <span class="reviewCardHeaderSpan">Genre: </span>
-                    <span th:text="${review.filmId.genres.get(0).genre.name}"></span>
-                    <br>
-                </th:block>
-                <!--If there are multiple directors, put a comma after each until the last director-->
-                <th:block th:if="${review.filmId.directors.size()>1}">
-                    <span class="reviewCardHeaderSpan">Directors: </span>
-                    <span class="reviewCardSpan" th:each="director: ${review.filmId.directors}" th:if="${directorStat.Index != review.filmId.directors.size()-1}" th:text="${director.director.name} + ', '"></span>
-                    <span class="reviewCardSpan" th:each="director: ${review.filmId.directors}" th:if="${directorStat.Index == review.filmId.directors.size()-1}" th:text="${director.director.name}"></span>
-                    <br>
-                </th:block>
-                <th:block th:if="${review.filmId.directors.size()<=1}">
-                    <span class="reviewCardHeaderSpan">Director: </span>
-                    <span th:text="${review.filmId.directors.get(0).director.name}"></span>
-                    <br>
-                </th:block>
-                <!--If there are multiple actors, put a comma after each until the last director-->
-                <th:block th:if="${review.filmId.actors.size()>1}">
-                    <span class="reviewCardHeaderSpan">Actors: </span>
-                    <span class="reviewCardSpan" th:each="actor: ${review.filmId.actors}" th:if="${actorStat.Index != review.filmId.actors.size()-1}" th:text="${actor.actor.name} + ', '"></span>
-                    <span class="reviewCardSpan" th:each="actor: ${review.filmId.actors}" th:if="${actorStat.Index == review.filmId.actors.size()-1}" th:text="${actor.actor.name}"></span>
-                    <br>
-                </th:block>
-                <th:block th:if="${review.filmId.actors.size()<=1}">
-                    <span class="reviewCardHeaderSpan">Actor: </span>
-                    <span th:text="${review.filmId.actors.get(0).actor.name}"></span>
-                    <br>
-                </th:block>
-                <div class="reviewCardSpan">
-                    <ul>
-                        <li class="reviewCardHeaderSpan">Rating:</li>
-                        <!--Provide an amount of stars equal to the reviews rating-->
-                        <th:block th:each="i: ${#numbers.sequence(0, review.rating-1)}">
-										<li><i class="fas fa-star"></i></li>
-									</th:block>
-								</ul>
-							</div>
-						</div>
-						<div class="col-sm-12 col-md-8">
-							<div class = "individualMovieDetailImgWrap">
-								<!--Show the movies image if exists-->
-								<img th:if="${review.filmPhoto} != null" th:src="${review.filmPhoto.imageUrl}"> 
-								<i th:if="${review.filmPhoto} == null" class="fas fa-chalkboard-teacher"></i>
-							</div>
-						</div>
-					</div>
-				<div class = "row">
-					<div class="col-sm-12">
-						<h2>Review</h2>
-						<p th:text="${review.review}"></p>
-					</div>
-				</div>
-			</div>
+            <div class="col-sm-6">
+                <div class="instrumentTextBox">
+                    <h1>{{ product.brand }} {{ product.name }}</h1>
+                    <h2>{{ product.instrument_type }}</h2>
+                    <h2>Price: &euro;{{ product.cost }}</h2>
+                    <h2>{{product.stock_amount}} in stock!</h2>
+                    <p>{{product.description}}</p>
+                </div>
+                 <div class="cardButtonWrap">
+                        <!--Form below will allow user to add multiple amounts of instrument to cart-->
+                        {% if product.stock_amount > 0 %}
+                            <form action = "{% url 'cart:add' product.id %}" method = "POST">
+                                {% csrf_token %}
+                                <input type="number" name="quantity" min = "0" max = "{{product.stock_amount}}" value = "0"/>
+                                <input class = "btn btn-primary" type="submit" value="Add to Cart"/>
+                            </form>
+                        <!--If stock is 0 display a button requesting to be notified when product is back in stock-->
+                        {% else %}
+                            <a class = "btn btn-warning" href = "{% url 'sns_notifications:stock_notify' product.id %}">Notify me of restock</a>
+                        {% endif %}
+                </div>
+    		</div>
+    		<div class="col-sm-6">
+                <!--If the instrument has an image, display it-->
+                {% if product.get_image %}
+                    <img src = "{{bucket}}{{product.get_image.image}}">
+                {% else %}
+                    <i class="fas fa-music"></i>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="comments">
+                <h1>User Feedback</h1>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}

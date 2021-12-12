@@ -27,6 +27,7 @@ def product_form(request):
             instrument.instrument_type = type
             instrument.brand = brand
             instrument.save()
+            s3_bucket_url =  settings.INSTRUMENT_IMAGE_URL
             # If a picture was supplied in the form upload it to S3
             if request.POST.get('picture') != "":
                 try:
@@ -37,6 +38,8 @@ def product_form(request):
                 except:
                     messages.info(request, "There was an issue creating this instrument")
                     traceback.print_exc()
+            messages.info(request, "Product successfully uploaded")
+            return render(request, "instrument.html", {'product': instrument, 'bucket': s3_bucket_url})
         except:
             messages.info(request, "There was an issue in the overall process")
             traceback.print_exc()

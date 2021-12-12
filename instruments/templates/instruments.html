@@ -12,14 +12,14 @@
         {% for instrument in instruments %}
             <div class="col-sm-3">
                 <div class="card instrumentCard">
+                    <h5>{{ instrument.brand}}</h5>
+                    <h5>{{ instrument.name}}</h5>
                     <!--If the instrument has an image, display it-->
                     {% if instrument.get_image %}
                         <img src = "{{bucket}}{{instrument.get_image.image}}">
                     {% else %}
                         <i class="fas fa-music"></i>
                     {% endif %}
-                    <h5>Brand:{{ instrument.brand}}</h5>
-                    <h5>Model:{{ instrument.name}}</h5>
                     <h5>{{ instrument.instrument_type }}</h5>
                     <span>Cost:{{ instrument.cost }}</span><span>Stock:{{ instrument.stock_amount }}</span>
                     <div class="cardButtonWrap">

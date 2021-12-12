@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib import messages
 from instruments.models import Instrument
@@ -16,10 +16,21 @@ if os.path.exists("env.py"):
 def payment_form(request):
     # If the request is a post request
     if request.method=="POST":
+        cart = request.session.get('cart')
+        # Calculate the total cost
+        total = 0
+        try:
+            for id, quantity in cart.items():
+                instrument = Instrument.objects.get(pk=id)
+                total += quantity * instrument.cost
+            print(total)
+        except:
+            print("Issue calculating the total")
+            return render (request, 'index')
         # Create an order
         try:
             order = Order()
-            order.totalCost = 33
+            order.totalCost = total
             order.delivery_street = request.POST.get('addressOne')
             order.delivery_town = request.POST.get('addressTwo')
             order.delivery_county = request.POST.get('addressThree')
@@ -27,12 +38,9 @@ def payment_form(request):
             order.customer_phone = request.POST.get('phone')
             order.customer = CustomUser.objects.get(email = request.user)
             order.save()
-            cart = request.session.get('cart')
             # For each instrument that was in the cart create an order line item and remove the stock amount from the database
             for id, quantity in cart.items():
                 instrument = Instrument.objects.get(pk = id)
-                print(instrument.name)
-                print(f"Stock: {instrument.stock_amount}")
                 order_line = OrderLineItem()
                 order_line.instrument = instrument
                 order_line.quantity = quantity
@@ -40,12 +48,14 @@ def payment_form(request):
                 order_line.save()
                 instrument.stock_amount -= quantity
                 instrument.save()
-            # empty the cart
-            request.session['cart'] = {}
+                # empty the cart
+                request.session['cart'] = {}
+                messages.info(request, "Payment sucessfully processed") 
         except:
-          messages.info(request, "Theres was an issue creating the order details")  
-          print(traceback.format_exc())
-        return render (request, "index.html")
+            messages.info(request, "Theres was an issue creating the order details")  
+            print(traceback.format_exc())
+        request.session['cart'] = cart
+        return redirect ('instrument:view_instruments')
 
         #print("Post")
     # If the request is a get request, display forms required for payment
@@ -66,9 +76,17 @@ def create_payment_intent(request):
     # Try to create a payment intent using the stripe API
     try:
         stripe.api_key = env_variables.get_stripe_secret()
-        intent = stripe.PaymentIntent.create(amount = int(total*100), currency = "eur")
+        intent = stripe.PaymentIntent.create(amount = int(total*100), currency = "eur", payment_method_types = ['card'],)
+        print(intent)
         # Retrieve the client secret key from the payment intent instance
         return JsonResponse({'client_secret': intent.client_secret})
     except:
         messages.info(request, "Theres was an issue connecting with Stripe")
         return render(request, "cart.html")
+        
+def display_payment_success(request):
+    # Empty the cart
+    request.session['cart'] = {}
+    messages.info(request, "Your order has been successfully placed")
+    return redirect ('instrument:view_instruments')
+

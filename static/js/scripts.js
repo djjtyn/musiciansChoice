@@ -101,35 +101,35 @@ $(document).ready(function() {
            displayFormError(type, "Invalid characters detected\nLetters, numbers, spaces and parenthesis only accepted");
         }
     });
-    
     // Stripe JS
     let stripe = Stripe("pk_test_51K2dXzFGKYruxG0TBF3X93vMIo9hSKNBw74xfkocV5Atz6v1pyrhwpgfwUqXPWkPXKjERIXYdVrjBxcoaD6axKP400D1FM11fS");
     let elements = stripe.elements();
-
-    let cardNumber = elements.create("cardNumber");
-	cardNumber.mount("#cardNumber");
-	cardNumber.on('change', ({ error }) => {
-		if (error) {
-			validInput = false;
-			displayFormError($("#cardNumber"), error.message);
-		} else {
-			validInput = true;
-			removeFormError($("#cardNumber"));
-		}
-	});
-    let cardExpiry = elements.create("cardExpiry");
-	cardExpiry.mount('#cardExpiry');
-	cardExpiry.on('change', ({ error }) => {
-		if (error) {
-			validInput = false;
-			displayFormError($("#cardExpiry"), error.message);
-		} else {
-			validInput = true;
-			removeFormError($("#cardExpiry"));
-		}
-	});
-	let cardCvc = elements.create('cardCvc');
-	cardCvc.mount('#cardCvc');
+    if(document.querySelector("#cardNumber")) {
+        var cardNumber = elements.create("cardNumber");
+	    cardNumber.mount("#cardNumber");
+	    cardNumber.on('change', ({ error }) => {
+		    if (error) {
+			    validInput = false;
+			    displayFormError($("#cardNumber"), error.message);
+    		} else {
+    			validInput = true;
+    			removeFormError($("#cardNumber"));
+    		}
+    	});
+        let cardExpiry = elements.create("cardExpiry");
+    	cardExpiry.mount('#cardExpiry');
+    	cardExpiry.on('change', ({ error }) => {
+    		if (error) {
+    			validInput = false;
+    			displayFormError($("#cardExpiry"), error.message);
+    		} else {
+    			validInput = true;
+    			removeFormError($("#cardExpiry"));
+    		}
+    	});
+    	let cardCvc = elements.create('cardCvc');
+    	cardCvc.mount('#cardCvc');
+    }
 	$("#paymentForm").on("submit", function (event) {
 	    event.preventDefault();
 	    loading(true);
@@ -138,9 +138,9 @@ $(document).ready(function() {
             return response.json();
         }).then(function(responseJson) {
             var clientSecret = responseJson.client_secret;
-            return payWithCard(stripe, cardNumber, clientSecret);
+            responseJson.payment_method = cardNumber;
+            payWithCard(stripe, cardNumber, clientSecret);
         });
-        $(this).unbind('submit').submit()
     });
 })
 
@@ -167,16 +167,15 @@ function payWithCard(stripe, cardNumber, secretKey) {
 }
 
 //The method below is called when payment is successful
-// function paymentComplete(){
-// 	//create a form
-// 	let requestId = document.getElementById("requestId").value;
-// 	let form = document.createElement("form");
-// 	let formAction = requestId + "/success";
-// 	form.setAttribute("action", formAction);
-// 	form.setAttribute("method", "get");
-// 	document.body.appendChild(form);
-// 	form.submit();
-// }
+function paymentComplete(){
+	//create a form
+	let form = document.createElement("form");
+	let formAction = "paymentSuccess"
+	form.setAttribute("action", formAction);
+	form.setAttribute("method", "get");
+	document.body.appendChild(form);
+	form.submit();
+}
 
 //Method to show user their payment is processing
 function loading(isLoading) {

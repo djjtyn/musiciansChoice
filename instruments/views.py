@@ -54,16 +54,22 @@ def product_form(request):
 def view_instruments(request):
     s3_bucket_url =  settings.INSTRUMENT_IMAGE_URL
     instrument_images = InstrumentPicture.objects.all()
+    instrument_types = InstrumentType.objects.all()
     # Get all the instruments from the database
     instruments = list(Instrument.objects.all())
     # If the request is a post request a filter has been applied
     if request.method == "POST":
-        print(request)
-        sort_filter = request.POST.get('sort_by')
-        testLib = MyMethods()
-        testLib.sort_by(instruments, 0, len(instruments)-1 , sort_filter)
-        messages.info(request, f"Products sorted by {sort_filter}")
-    return render(request, "instruments.html", {'instruments' : instruments, 'image': instrument_images, 'bucket': s3_bucket_url});
+        # Determine if filter is a sort filter or another filter
+        if request.POST.get('sort_by'):
+            sort_filter = request.POST.get('sort_by')
+            testLib = MyMethods()
+            testLib.sort_by(instruments, 0, len(instruments)-1 , sort_filter)
+            messages.info(request, f"Products sorted by {sort_filter}")
+        else:
+            print(request.POST.get('filter_by'))
+            instruments = Instrument.objects.filter(instrument_type=request.POST.get('filter_by'))
+            messages.info(request, f"Displaying {len(instruments)} results for {InstrumentType.objects.get(pk=request.POST.get('filter_by'))}")
+    return render(request, "instruments.html", {'instruments' : instruments,'instrument_types': instrument_types, 'image': instrument_images, 'bucket': s3_bucket_url});
     
 
     

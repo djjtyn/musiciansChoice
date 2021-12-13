@@ -26,4 +26,25 @@ class sns:
         except ClientError as e:
             logging.error(e)
             print("An isue occured subscribing")
+            
+    @staticmethod
+    def publish_to_topic_and_remove_topic(topic_name, message):
+        sns_client = boto3.client('sns')
+        try:
+            # Try to publish the message
+            response = sns_client.create_topic(Name = topic_name)
+            topic_arn = response['TopicArn']
+            response = sns_client.publish(TopicArn = topic_arn, Message = message)
+            # Try to delete the topic
+            try:
+                response = sns_client.delete_topic(TopicArn = topic_arn)
+            except ClientError as e:
+                logging.error(e)
+                print("An isue occured publishing the message")
+        except ClientError as e:
+            logging.error(e)
+            print("An isue occured in the message publish process")
+            
+            
+        
     

@@ -1,12 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.admin.views.decorators import staff_member_required
 from brands.models import Brand
 from instrument_type.models import InstrumentType
 from django.contrib import messages
 from .models import Instrument, InstrumentPicture
+from sns_notifications.sns_utils import sns
 import traceback
 from django.conf import settings
 from custom_library.library_methods_pkg.library_methods import MyMethods
+
 
 
 
@@ -63,3 +65,23 @@ def view(request, instrument_id):
     # Retrieve the selected instruments details
     product = Instrument.objects.get(pk=instrument_id)
     return render(request, "instrument.html", {'product': product, 'bucket': s3_bucket_url})
+
+@staff_member_required    
+def adjust_stock(request, instrument_id):
+    quantity = int(request.POST.get('quantity'))
+    product = Instrument.objects.get(pk=instrument_id) 
+    try:
+        # Adjust the selected instruments stock amount using quantity value provided in form
+        product.stock_amount = quantity
+        product.save()
+        messages.info(request, "Stock successfully adjusted")
+    except:
+        messages.info(request, "Issue adjusting product stock")
+    try:
+        # Publish to restock notification topic if it exists
+        sns.publish_to_topic_and_remove_topic(f"restockNotificationForInstrumentId{instrument_id}", f"You are receiving this message because you have previously opted to receive a restock notification for the {product.brand.brand} {product.name} product range. Good news! We have just added {quantity} new stock for this!")
+    except:
+        traceback.print_exc()
+        print("Issue publshing to any topic that exists for restock notification")
+    return redirect ('instrument:view_instruments')
+

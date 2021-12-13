@@ -7,6 +7,19 @@
     <h3>There are currently no instruments to display</h3>
 {%else %}
 <div class = "container-fluid">
+    <!--Sorting Options-->
+    <div class="row">
+        <form method = "POST" id = "sortByForm">
+            {% csrf_token %}
+            <div class="form-group">
+                <select name = "sort_by">
+                    <option value="volvo" selected disabled>Sort By</option>
+                    <option value = "brand">Brand (A-Z)</option>
+                    <option value = "cost">Cost</option>
+                </select>
+            </div>
+        </form>
+    </div>
     <div class="row">
         <!--Create a card for each instruent in the database-->
         {% for instrument in instruments %}

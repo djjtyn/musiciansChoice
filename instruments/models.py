@@ -26,7 +26,7 @@ class Instrument(models.Model):
         if sorting_filter == "cost":
             return self.cost
         if sorting_filter == "brand":
-            return self.brand
+            return self.brand.brand
         
 class InstrumentPicture(models.Model):
     pictureUrl = models.CharField(max_length = 2048)

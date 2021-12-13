@@ -25,7 +25,6 @@ class MyMethods:
         # Pass values to the temp arrays using for loop to traverse list argument
         for index in range(array_one_size):
             temp_list_one.insert(index, list[start_index + index])
-            print(f"Inserted {list[start_index+index]} into tmp one")
         for index in range(array_two_size):
             temp_list_two.insert(index, list[middle_index + index + 1])
 
@@ -50,7 +49,6 @@ class MyMethods:
             list[k] =  temp_list_two[j]
             j+=1
             k+=1
-        print("Here now")
             
         
             

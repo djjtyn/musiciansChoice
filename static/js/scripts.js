@@ -5,6 +5,11 @@ const lettersNumbersParenthesesSpacesAndCertainCharactersOnlyRegex = new RegExp(
 
 $(document).ready(function() {
     
+    // Allow the sort filter to be applied when sort option is adjusted
+    $("#sortByForm").on("change", function() {
+        this.submit();
+    })
+    
      // Prevent the instrument form from being submitted unless it is validated
      $("#registrationForm").on("submit", function(event) {
         // Get the form values

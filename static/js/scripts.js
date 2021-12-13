@@ -5,8 +5,11 @@ const lettersNumbersParenthesesSpacesAndCertainCharactersOnlyRegex = new RegExp(
 
 $(document).ready(function() {
     
-    // Allow the sort filter to be applied when sort option is adjusted
+    // Allow the instrument filters to be applied when option is adjusted
     $("#sortByForm").on("change", function() {
+        this.submit();
+    })
+    $("#filterByForm").on("change", function() {
         this.submit();
     })
     

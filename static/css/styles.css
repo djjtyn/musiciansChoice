@@ -3,6 +3,39 @@ body {
     box-sizing: border-box;
 }
 
+.container-fluid{
+    margin:0;
+    padding:0;
+}
+
+.bannerImgArea {
+    position:relative;
+	text-align:center;
+	padding-bottom:1em;
+}
+
+.bannerImgArea h1 {
+    background:rgba(0, 0, 0, .3);
+    width:100%;
+    color:white;
+    margin:auto;
+	position:absolute;
+	bottom:50%;
+	word-wrap:break-word;
+	font-size:3em;;
+}
+
+.bannerImgArea  img {
+    width:100%;
+    height:28rem;
+    object-fit: cover; 
+}
+
+.messages {
+    background-color:black;
+    color:white;
+}
+
 /*Listing items already in database on pages with forms*/
 .existingItems {
     text-align: center;
@@ -75,6 +108,17 @@ body {
 }
 
 /*Page for viewing multiple instruments*/
+.filterInstrumentsForm {
+    margin:2em 0 0 0;
+    position:absolute;
+	top:50%;
+	width:100%;
+}
+
+.filterInstrumentsForm form {
+    display:contents;
+}
+
 .instrumentCard {
     padding:1em;
     margin:1em;

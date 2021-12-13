@@ -86,7 +86,17 @@ body {
     margin:1em 0;
 }
 
+.formInlineElements {
+    text-align:center;
+}
+.formInlineElements input[type = 'number']{
+    display:inline;
+    width:2.5em;
+}
 
+.formInlineElements input {
+    display:inline;
+}
 
 .cardButtonWrap {
     max-width:100%;

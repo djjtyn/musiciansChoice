@@ -17,3 +17,5 @@ def notify_when_product_is_back_in_stock(request, instrument_id):
         messages.info(request, "An error occured processing this request")
         print(traceback.format_exc())
     return redirect ('instrument:view_instruments')
+    
+

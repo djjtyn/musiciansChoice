@@ -80,7 +80,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return self.email
         
     def is_admin_user(self):
-        return self.is_admin()
+        return self.is_admin
         
     def has_perm(self, perm, obj=None):
         return True

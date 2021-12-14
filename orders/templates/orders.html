@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block page_title %}View Orders{% endblock %}
+{% block content %}
+<!--For each Order display a row-->
+<table class="table table-sm" id="usersTable">
+    <thead>
+        <tr>
+            <th scope="col">Order ID</th>
+            <th scope="col">Customer ID</th>
+            <th scope="col">Total Cost</th>
+            <th scope="col">Date</th>
+            <th scope="col">Additional Info</th>
+        </tr>
+    </thead>
+    <!--If there are no orders in the database, display that information-->
+    <tbody>
+        {% if orders == null %}
+            <tr>
+                <td width="99%">No orders in database</td>
+            </tr>
+        {% else %}
+        <!--Display a table row for each order if there are orders-->
+            {% for order in orders %}
+                <tr>
+                    <td>{{order.id}}</td>
+                    <td>{{order.customer.id}}</td>
+                    <td>{{order.totalCost}}</td>
+                    <td>{{order.date}}</td>
+                    <td><button class = "btn btn-success" onclick = "alert(`Customer Name: {{order.customer.f_name}} {{order.customer.l_name}}\nPhone: {{order.customer_phone}}\\\nDelivery Address\n{{order.delivery_street}},\n{{order.delivery_town}},\n{{order.delivery_street}},\n{{order.delivery_county}}`)">More Details</button></td>
+                <tr>
+            {% endfor%}
+        {% endif %}
+    </tbody>
+</table>
+
+{% endblock content %}

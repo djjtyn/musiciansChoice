@@ -101,14 +101,19 @@ if os.path.exists("env.py"):
     DATABASES = {
         'default':  dj_database_url.parse(env_variables.get_db_url())
     }
-# else: 
-# print("Issue identified while trying to use hosted db. Switching to SQLite3")
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#         }
-#     }
+else:
+    try:
+        print("Using hosted db")
+        DATABASES = {
+            'default':  dj_database_url.parse(os.environ.get('db_url'))
+        }
+    except:
+        DATABASES = {
+            'default': {
+               'ENGINE': 'django.db.backends.sqlite3',
+               'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            }
+         }
 # Set the custom user model as the authentication model
 AUTH_USER_MODEL = "users.CustomUser"
 

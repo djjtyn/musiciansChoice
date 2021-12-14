@@ -9,27 +9,26 @@
             <th scope="col">Customer ID</th>
             <th scope="col">Total Cost</th>
             <th scope="col">Date</th>
-            <th scope="col">Additional Info</th>
+            <th scope = "col">Order Line</th>
+            <th scope="col">Customer</th>
         </tr>
     </thead>
     <!--If there are no orders in the database, display that information-->
     <tbody>
-        {% if orders == null %}
-            <tr>
-                <td width="99%">No orders in database</td>
-            </tr>
-        {% else %}
         <!--Display a table row for each order if there are orders-->
-            {% for order in orders %}
-                <tr>
-                    <td>{{order.id}}</td>
-                    <td>{{order.customer.id}}</td>
-                    <td>{{order.totalCost}}</td>
-                    <td>{{order.date}}</td>
-                    <td><button class = "btn btn-success" onclick = "alert(`Customer Name: {{order.customer.f_name}} {{order.customer.l_name}}\nPhone: {{order.customer_phone}}\\\nDelivery Address\n{{order.delivery_street}},\n{{order.delivery_town}},\n{{order.delivery_street}},\n{{order.delivery_county}}`)">More Details</button></td>
-                <tr>
-            {% endfor%}
-        {% endif %}
+        {% for order in orders %}
+            <tr>
+                <td>{{order.id}}</td>
+                <td>{{order.customer.id}}</td>
+                <td>{{order.totalCost}}</td>
+                <td>{{order.date}}</td>
+                <td><button class = "btn btn-primary" onclick = "alert(`{% for orderLine in order.get_order_details%}{{orderLine.instrument.brand}} {{orderLine.instrument.name}} X {{orderLine.quantity}} @ &euro;{{orderLine.instrument.cost}} each = {{orderLine.calculate_cost}}\n{% endfor%}`)">Details</button></td>
+                <td><button class = "btn btn-success" onclick = "alert(`Customer Name: {{order.customer.f_name}} {{order.customer.l_name}}\nPhone: {{order.customer_phone}}\\\nDelivery Address\n{{order.delivery_street}},\n{{order.delivery_town}},\n{{order.delivery_street}},\n{{order.delivery_county}}`)">Info</button></td>
+                {% empty %}
+                <td width="99%">No orders in database</td>  
+            <tr>
+            
+        {% endfor%}
     </tbody>
 </table>
 

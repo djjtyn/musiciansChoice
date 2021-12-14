@@ -66,10 +66,12 @@
                 <a class="btn btn-success" href="{% url 'instrument:view' instrument.id %}"><i class="fas fa-eye"></i>More Info</a>
                 <!--Form below will allow user to add multiple amounts of instrument to cart-->
                 {% if instrument.stock_amount > 0 %}
-                <form action="{% url 'cart:add' instrument.id %}" method="POST">
+                <form action="{% url 'cart:add' instrument.id %}" method="POST" onsubmit = "validQuantityCheck(this, event)">
                     {% csrf_token %}
-                    <input type="number" name="quantity" min="0" max="{{instrument.stock_amount}}" value="0" />
-                    <input class="btn btn-primary" type="submit" value="Add to Cart" />
+                    <div class="form-group">
+                        <input type="number" name="quantity" min="0" max="{{instrument.stock_amount}}" value="0" />
+                        <input class="btn btn-primary" type="submit" value="Add to Cart" />
+                    </div>
                 </form>
                 <!--If stock is 0 display a button requesting to be notified when product is back in stock-->
                 {% else %}

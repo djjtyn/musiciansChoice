@@ -4,7 +4,7 @@ const lettersNumbersParenthesesAndSpacesOnlyRegex = new RegExp("^.[A-z0-9() ]*$"
 const lettersNumbersParenthesesSpacesAndCertainCharactersOnlyRegex = new RegExp("^.[A-z0-9()?,\n\r ]*$")
 
 $(document).ready(function() {
-    
+
     // Allow the instrument filters to be applied when option is adjusted
     $("#sortByForm").on("change", function() {
         this.submit();
@@ -170,7 +170,29 @@ function payWithCard(stripe, cardNumber, secretKey) {
  		}
 	})
 }
+function validQuantityCheck(element, event) {
+    let inputElement = element.querySelector("input[name = 'quantity']");
+    // Determine if the quantiy selected is below the max stock
+    if (inputElement.value > inputElement.max || inputElement.value <= 0) {
+        event.preventDefault();
+        console.log(inputElement.value);
+    }else {
+        return true;
+    }
+}
+    
+    // //Prevent the user from adding a value higher than  ap products stock value to their cart
+    // $(".addToCartForm").on("change", function(event) {
+    //     let input = $("input[name = 'quantity']");
+    //     //If the selected amount is higher than the stock amount, prevent the form from being submit
+    //     if(input.val() > input.attr('max')){
 
+    //     } else {
+    //         console.log("Thats okay");
+    //     }
+    //     console.log(input.attr('max'));
+    //     alert("Test");
+    // })
 
 //The method below is called when payment is successful
 // function paymentComplete(){

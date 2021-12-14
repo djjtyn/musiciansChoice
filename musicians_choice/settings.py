@@ -30,7 +30,7 @@ SECRET_KEY = 'udyc$t%ziearxfpo)dpi2d56yaj&cj&8j&552ip_huah3(g*32'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '135a869bdf7049fa82691162b8a41ef4.vfs.cloud9.eu-west-1.amazonaws.com', 
+    '23cac851629349338ec38e01e18aa38c.vfs.cloud9.eu-west-1.amazonaws.com', 
     'musicianschoiceenv.eba-f3mtanzm.eu-west-1.elasticbeanstalk.com',
     
 ]
@@ -96,19 +96,19 @@ WSGI_APPLICATION = 'musicians_choice.wsgi.application'
 
 # Database
 # If there is a environment variable for the database use that databases details
-# if os.path.exists("env.py"):
-#     print("Using hosted db")
-#     DATABASES = {
-#         'default':  dj_database_url.parse(env_variables.get_db_url())
-#     }
-# else: 
-print("Issue identified while trying to use hosted db. Switching to SQLite3")
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
+if os.path.exists("env.py"):
+    print("Using hosted db")
+    DATABASES = {
+        'default':  dj_database_url.parse(env_variables.get_db_url())
     }
+# else: 
+# print("Issue identified while trying to use hosted db. Switching to SQLite3")
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#         }
+#     }
 # Set the custom user model as the authentication model
 AUTH_USER_MODEL = "users.CustomUser"
 

@@ -1,8 +1,11 @@
 from django.db import models
-
-#import the classes used s foreign keys
+#import the classes used as foreign keys
+#from comments.models import UserComment
 from instrument_type.models import InstrumentType
 from brands.models import Brand
+from users.models import CustomUser
+
+# from comments.models import CommentModel
 
 class Instrument(models.Model):
     name = models.CharField(max_length = 60)
@@ -18,6 +21,9 @@ class Instrument(models.Model):
     def get_image(self):
         return InstrumentPicture.objects.get(instrument = self.id)
         
+    # def get_comments(self):
+    #     return Comment.objects.filter(instrument = self.id)
+        
     def get_sorting_filter(self, sorting_filter):
         if sorting_filter == "name":
             return self.name
@@ -32,3 +38,9 @@ class InstrumentPicture(models.Model):
     pictureUrl = models.CharField(max_length = 2048)
     image = models.ImageField(upload_to='img/')
     instrument = models.ForeignKey(Instrument, on_delete = models.CASCADE)
+    
+class InstrumentCmment(models.Model):
+    comment = models.CharField(max_length = 6000)
+    instrument = models.ForeignKey(Instrument, on_delete = models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete = models.CASCADE)
+    

@@ -166,6 +166,8 @@ function payWithCard(stripe, cardNumber, secretKey) {
 		}
 	}).then(function(result) {
 		if (result.error) {
+		    let response = fetch('/payment_fail');
+		    return response;
 			displayFormError($("#cardExpiry"), result.error.message);
  		}
 	})

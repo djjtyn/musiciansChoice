@@ -1,41 +1,12 @@
 {% extends 'base.html' %}
-{% block page_title %}View Instruments{% endblock %}
+{% block page_title %}Recommended{% endblock %}
 {% block content %}
 <div class="container-fluid">
     <div class="bannerImgArea">
-        <h1 class="pageHeading">View Products</h1>
-        <!--if no instruments in database, display that information-->
-        {% if instruments|length < 1 %}
-        <h3>There are currently no instruments to display</h3>
-        {%endif %}
-        <img src="../static/img/musicNotes.jpg" alt="hiddenMusicians" class="pageBannerImg">
+        <h1 class="pageHeading">Recommended</h1>
+        <img src="../../static/img/musicNotes.jpg" alt="hiddenMusicians" class="pageBannerImg">
         <div class="row filterInstrumentsForm">
             <div class="col-sm-6">
-                <!--Sorting Options-->
-                <form method="POST" class="filterInstrumentsForm" id="sortByForm">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <select name="sort_by">
-                            <option selected disabled>Sort By</option>
-                            <option value="brand">Brand (A-Z)</option>
-                            <option value="cost">Cost</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class="col-sm-6">
-                <!--Sorting Options-->
-                <form method="POST" class="filterInstrumentsForm" id="filterByForm">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <select name="filter_by">
-                            <option value="volvo" selected disabled>Filter By</option>
-                            {% for type in instrument_types %}
-                                <option value = {{type.id}}>{{ type.type }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </form>
             </div>
         </div> 
     </div>

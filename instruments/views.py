@@ -4,6 +4,7 @@ from brands.models import Brand
 from instrument_type.models import InstrumentType
 from django.contrib import messages
 from .models import Instrument, InstrumentPicture
+from orders.models import Order, OrderLineItem
 from sns_notifications.sns_utils import sns
 import traceback
 from django.conf import settings
@@ -98,4 +99,45 @@ def adjust_stock(request, instrument_id):
         traceback.print_exc()
         print("Issue publshing to any topic that exists for restock notification")
     return redirect ('instrument:view_instruments')
+    
+def view_recommendations(request):
+    recommendations = []
+    s3_bucket_url =  settings.INSTRUMENT_IMAGE_URL
+    instrument_images = InstrumentPicture.objects.all()
+    # If the user is logged in, base their recommendations from previous order's they have made
+    if request.user.is_authenticated:
+        try:
+            # If the user has previous orders
+            if Order.objects.filter(customer = request.user):
+                instrument_ids = []
+                # If the customer has previous orders, get the instrument id's from the order line items
+                orders = Order.objects.filter(customer = request.user)
+                for order in orders:
+                    for line in order.get_order_details():
+                        instrument_ids.append(line.instrument.id)
+                # All the instrument id's the user has bought are contained in instrument_ids list
+                for id in instrument_ids:
+                    # Find other orders which contain the instrument id's
+                    order_line = OrderLineItem.objects.filter(instrument=id)
+                    for order in order_line:
+                        other_order = order.get_order()
+                        # Ensure the user's own order lines aren't considered
+                        if other_order.customer != request.user:
+                            for other_order_lines in other_order.get_order_details():
+                                # If the product isn't in the users purchase history, add it to recommended
+                                if other_order_lines.instrument.id != id:
+                                    recommendations.append(Instrument.objects.get(pk=other_order_lines.instrument.id))
+        except:
+            print("Exception")
+    else:
+        # If the user either doesn't have any previous orders or is logged out, get some instruments listed from other user orders
+        orders = Order.objects.all()
+        # Get unique products from the orders
+        for order in orders:
+            order_line_items = order.get_order_details()
+            for line_item in order_line_items:
+                # Add instruments to the recommendations list if they are not already appended
+                if line_item.instrument not in recommendations:
+                    recommendations.append(line_item.instrument)
+    return render(request, "recommendations.html", {'instruments' : recommendations, 'image': instrument_images, 'bucket': s3_bucket_url});
 

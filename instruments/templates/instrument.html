@@ -52,15 +52,15 @@
                             <p>{{ comment.user.f_name}}</p>
                         </div>
                         <div class="col-sm-12 col-md-11 order-first order-md-2">
+                            <!--Each comment will have a delete option if the user is staff-->
+                            {% if user.is_staff %}
+                            <a href = "{% url 'instrument:delete_comment' comment.id %}">
+    			                <i class="fas fa-times-circle"></i>
+    				        </a>
+                            {% endif %} 
                             <p> {{ comment.comment}}</p>
                         </div>
                     </div>
-                    <!--Each comment will have a delete option if the user is staff-->
-                    {% if user.is_staff %}
-                    <a href = "@{'/deleteComment/'} + ${comment.commentId}">
-    			        <button class="btn btn-danger">Delete</button>
-    				</a>
-    				{% endif %}
                 <div>
                 {% endfor %}
                 {% if user.is_anonymous %}

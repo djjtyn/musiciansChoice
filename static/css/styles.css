@@ -107,10 +107,6 @@ body {
     margin:1em auto;
 }
 
-form input, 
-form textarea {
-    padding:0 0 0 1em;
-}
 
 /*Page for viewing multiple instruments*/
 .filterInstrumentsForm {
@@ -210,6 +206,16 @@ form textarea {
 .comments h1 {
     text-align:center;
     text-decoration:underline;
+}
+
+.comments i {
+    font-size:2em;
+}
+
+.comments a {
+    font-size:.8em;
+    float:right;
+    color:red;
 }
 
 .commentButtonWrap {

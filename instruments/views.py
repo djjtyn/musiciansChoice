@@ -178,4 +178,14 @@ def view_recommendations(request):
                 if line_item.instrument not in recommendations:
                     recommendations.append(line_item.instrument)
     return render(request, "recommendations.html", {'instruments' : recommendations, 'image': instrument_images, 'bucket': s3_bucket_url});
+    
+def delete_comment(request, comment_id):
+    # Need to get hte product from the comment so as to redirect back to its page
+    instrument_id = InstrumentComment.objects.get(pk=comment_id).instrument.id
+    try:
+        InstrumentComment.objects.filter(pk=comment_id).delete()
+        messages.info(request, "Comment Deleted")
+    except:
+        message.info(request, "Unable to delete comment")
+    return redirect ("instrument:view", instrument_id = instrument_id)
 

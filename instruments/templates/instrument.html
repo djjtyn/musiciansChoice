@@ -5,6 +5,10 @@
     <div class="specificInstrumentWrap">
         <div class="row">
             <div class="col-sm-6">
+            <!--Option to edit the product details if the user is staff-->
+                {% if user.is_staff%}
+                    <a href = "{% url 'instrument:edit' product.id %}"><button class = "btn btn-primary"><i class="fas fa-edit"></i></button></a>
+                {% endif %}
                 <div class="instrumentTextBox">
                     <h1>{{ product.brand }} {{ product.name }}</h1>
                     <h2>{{ product.instrument_type }}</h2>
@@ -13,17 +17,17 @@
                     <p>{{product.description}}</p>
                 </div>
                  <div class="cardButtonWrap">
-                        <!--Form below will allow user to add multiple amounts of instrument to cart-->
-                        {% if product.stock_amount > 0 %}
-                            <form action = "{% url 'cart:add' product.id %}" method = "POST" onchange = "validQuantityCheck(this, {{product.stock_amount}})">
-                                {% csrf_token %}
-                                <input type="number" name="quantity" min = "0" max = "{{product.stock_amount}}" value = "0"/>
-                                <input class = "btn btn-primary" type="submit" value="Add to Cart"/>
-                            </form>
-                        <!--If stock is 0 display a button requesting to be notified when product is back in stock-->
-                        {% else %}
-                            <a class = "btn btn-warning" href = "{% url 'sns_notifications:stock_notify' product.id %}">Notify me of restock</a>
-                        {% endif %}
+                    <!--Form below will allow user to add multiple amounts of instrument to cart-->
+                    {% if product.stock_amount > 0 %}
+                        <form action = "{% url 'cart:add' product.id %}" method = "POST" onchange = "validQuantityCheck(this, {{product.stock_amount}})">
+                            {% csrf_token %}
+                            <input type="number" name="quantity" min = "0" max = "{{product.stock_amount}}" value = "0"/>
+                            <input class = "btn btn-success" type="submit" value="Add to Cart"/>
+                        </form>
+                    <!--If stock is 0 display a button requesting to be notified when product is back in stock-->
+                    {% else %}
+                        <a class = "btn btn-warning" href = "{% url 'sns_notifications:stock_notify' product.id %}">Notify me of restock</a>
+                    {% endif %}
                 </div>
     		</div>
     		<div class="col-sm-6">

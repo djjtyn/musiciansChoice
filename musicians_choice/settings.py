@@ -52,7 +52,6 @@ INSTALLED_APPS = [
     'home',
     'users',
     'brands',
-    'comments',
     'instrument_type',
     'instruments',
     'orders',

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block page_title %}Recommended{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <div class="bannerImgArea">
+        <h1 class="pageHeading">Recommended</h1>
+        <img src="../../static/img/musicNotes.jpg" alt="hiddenMusicians" class="pageBannerImg">
+        <div class="row filterInstrumentsForm">
+            <div class="col-sm-6">
+            </div>
+        </div> 
+    </div>
+    <div class="row">
+    <!--Create a card for each instruent in the database-->
+    {% for instrument in instruments %}
+    <div class="col-sm-3">
+        <div class="card instrumentCard">
+            <h5>{{ instrument.brand}}</h5>
+            <h5>{{ instrument.name}}</h5>
+            <!--If the instrument has an image, display it-->
+            {% if instrument.get_image %}
+            <img src="{{bucket}}{{instrument.get_image.image}}">
+            {% else %}
+            <i class="fas fa-music"></i>
+            {% endif %}
+            <h5>{{ instrument.instrument_type }}</h5>
+            <span>Cost:{{ instrument.cost }}</span><span>Stock:{{ instrument.stock_amount }}</span>
+            <!--If the user is staff, allow stock amount to be adjusted-->
+            {% if user.is_authenticated and user.is_staff%}
+            <form action="{% url 'instrument:adjust_stock' instrument.id %}" method="POST" class="formInlineElements">
+                {% csrf_token %}
+                <input type="number" name="quantity" min="{{instrument.stock_amount}}" value="{{instrument.stock_amount}}" />
+                <input class="btn btn-primary" type="submit" value="Adjust Stock" />
+            </form>
+            {% endif %}
+            <div class="cardButtonWrap">
+                <a class="btn btn-success" href="{% url 'instrument:view' instrument.id %}"><i class="fas fa-eye"></i>More Info</a>
+                <!--Form below will allow user to add multiple amounts of instrument to cart-->
+                {% if instrument.stock_amount > 0 %}
+                <form action="{% url 'cart:add' instrument.id %}" method="POST" onchange = "validQuantityCheck(this, {{instrument.stock_amount}})">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input type="number" name="quantity" min="0" max="{{instrument.stock_amount}}" value="0" />
+                        <input class="btn btn-primary" type="submit" value="Add to Cart" />
+                    </div>
+                </form>
+                <!--If stock is 0 display a button requesting to be notified when product is back in stock-->
+                {% else %}
+                <a class="btn btn-warning" href="{% url 'sns_notifications:stock_notify' instrument.id %}">Notify me of restock</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

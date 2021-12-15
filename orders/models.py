@@ -13,6 +13,15 @@ class Order(models.Model):
     delivery_postcode = models.CharField(max_length = 9)
     customer_phone = models.CharField(max_length = 30)
     customer = models.ForeignKey(CustomUser, on_delete = models.CASCADE)
+    
+    @property
+    def get_customer(self):
+        return self.date
+    
+    def get_order_details(self):
+        return OrderLineItem.objects.filter(order = self.id)
+
+        
 
         
 class OrderLineItem(models.Model):
@@ -20,5 +29,12 @@ class OrderLineItem(models.Model):
     instrument = models.ForeignKey(Instrument, null = False, on_delete = models.PROTECT)
     quantity = models.IntegerField()
     
+    def calculate_cost(self):
+        return self.quantity * self.instrument.cost
+        
+    def get_order(self):
+        return self.order
+
+        
     
     

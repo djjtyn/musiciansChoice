@@ -170,15 +170,16 @@ function payWithCard(stripe, cardNumber, secretKey) {
  		}
 	})
 }
-function validQuantityCheck(element, event) {
-    let inputElement = element.querySelector("input[name = 'quantity']");
-    // Determine if the quantiy selected is below the max stock
-    if (inputElement.value > inputElement.max || inputElement.value <= 0) {
-        event.preventDefault();
-        console.log(inputElement.value);
-    }else {
-        return true;
-    }
+function validQuantityCheck(element, maxAmount) {
+     let inputElement = element.querySelector("input[name = 'quantity']");
+     // Prevent the user from using a negative number
+     if(inputElement.value < 0 ) {
+         inputElement.value = 0
+     } 
+     // Prevent the user from entering a value above the maximum stock amount
+     if(inputElement.value > maxAmount) {
+        inputElement.value = maxAmount;
+     }
 }
     
     // //Prevent the user from adding a value higher than  ap products stock value to their cart

@@ -51,7 +51,7 @@ def payment_form(request):
                 instrument.save()
                 # empty the cart
                 request.session['cart'] = {}
-                messages.info(request, "Your order has been successfully placed") 
+            messages.info(request, "Your order has been successfully placed") 
         except:
             messages.info(request, "Theres was an issue creating the order details")  
             print(traceback.format_exc())

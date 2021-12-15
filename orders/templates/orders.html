@@ -2,15 +2,15 @@
 {% block page_title %}View Orders{% endblock %}
 {% block content %}
 <!--For each Order display a row-->
-<table class="table table-sm" id="usersTable">
+<table class="table orderTable">
     <thead>
         <tr>
-            <th scope="col">Order ID</th>
-            <th scope="col">Customer ID</th>
-            <th scope="col">Total Cost</th>
-            <th scope="col">Date</th>
-            <th scope = "col">Order Line</th>
-            <th scope="col">Customer</th>
+            <th>Order ID</th>
+            <th>Customer ID</th>
+            <th>Total Cost</th>
+            <th>Date</th>
+            <th>Order Line</th>
+            <th>Customer</th>
         </tr>
     </thead>
     <!--If there are no orders in the database, display that information-->
@@ -23,7 +23,7 @@
                 <td>{{order.totalCost}}</td>
                 <td>{{order.date}}</td>
                 <td><button class = "btn btn-primary" onclick = "alert(`{% for orderLine in order.get_order_details%}{{orderLine.instrument.brand}} {{orderLine.instrument.name}} X {{orderLine.quantity}} @ &euro;{{orderLine.instrument.cost}} each = {{orderLine.calculate_cost}}\n{% endfor%}`)">Details</button></td>
-                <td><button class = "btn btn-success" onclick = "alert(`Customer Name: {{order.customer.f_name}} {{order.customer.l_name}}\nPhone: {{order.customer_phone}}\\\nDelivery Address\n{{order.delivery_street}},\n{{order.delivery_town}},\n{{order.delivery_street}},\n{{order.delivery_county}}`)">Info</button></td>
+                <td><button class = "btn btn-success" onclick = "alert(`Customer Name: {{order.customer.f_name}} {{order.customer.l_name}}\nEmail: {{order.customer.email}}\nPhone: {{order.customer_phone}}\\\nDelivery Address\n{{order.delivery_street}},\n{{order.delivery_town}},\n{{order.delivery_street}},\n{{order.delivery_county}}`)">Info</button></td>
                 {% empty %}
                 <td width="99%">No orders in database</td>  
             <tr>

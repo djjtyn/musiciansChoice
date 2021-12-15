@@ -14,6 +14,10 @@ class Order(models.Model):
     customer_phone = models.CharField(max_length = 30)
     customer = models.ForeignKey(CustomUser, on_delete = models.CASCADE)
     
+    @property
+    def get_customer(self):
+        return self.date
+    
     def get_order_details(self):
         return OrderLineItem.objects.filter(order = self.id)
 
@@ -27,6 +31,10 @@ class OrderLineItem(models.Model):
     
     def calculate_cost(self):
         return self.quantity * self.instrument.cost
-    
+        
+    def get_order(self):
+        return self.order
+
+        
     
     

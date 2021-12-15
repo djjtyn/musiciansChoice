@@ -9,15 +9,22 @@ import json
 
 # Display cart contents
 def view_cart(request):
-    s3_bucket_url =  settings.INSTRUMENT_IMAGE_URL
     cart = request.session.get('cart', {})
-    return render(request, 'cart.html', {'bucket': s3_bucket_url})
+    print(len(cart))
+    # Only show the cart if there are items in it
+    if(len(cart) > 0):
+        s3_bucket_url =  settings.INSTRUMENT_IMAGE_URL
+        return render(request, 'cart.html', {'bucket': s3_bucket_url})
+    else:
+        # if the cart doesn't have any items, display that info to the user
+        messages.info(request, "Your cart is empty")
+        return redirect('instrument:view_instruments')
     
 # Empty cart contents
 def empty_cart(request):
     request.session['cart'] = {}
     messages.success(request, "Your cart is now empty")
-    return render (request, "cart.html")
+    return redirect('instrument:view_instruments')
     
     
 def add_to_cart(request, instrument_id):

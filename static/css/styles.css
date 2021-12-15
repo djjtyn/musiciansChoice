@@ -1,6 +1,8 @@
 /*Generic Styling*/
 body {
     box-sizing: border-box;
+    max-width: 100%;
+     margin: 0%;  
 }
 
 .container-fluid{
@@ -162,7 +164,7 @@ body {
     padding:1em;
     margin:1em;
     background-color:red;
-    height:12em;
+    height:autoem;
 }
 
 .cartRow img {
@@ -173,6 +175,13 @@ body {
     width:3em;
     text-align:center;
 }
+
+.cartTotalArea {
+    text-align: right;
+    padding:1em;
+    margin:2em;
+}
+
 
 /*Styling for specific instrument pages */
 .specificInstrumentWrap {

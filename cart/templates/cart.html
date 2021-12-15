@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
 {% block page_title %}View Cart{% endblock %}
 {% block content %}
-<h1>View Cart</h1>
 <div class="container-fluid">
+    <div class="bannerImgArea">
+        <h1 class="pageHeading">Your Cart</h1>
+        <img src="../static/img/cart.jpeg" alt="cartImage" class="pageBannerImg">
+    </div>
 <!--Display a row for every item in users cart-->
 {% for product in cart_items %}
 <div class="cartRow">
@@ -32,21 +35,10 @@
 {% endfor %}
 <!--If there are items in the cart, display buttons for emptying the cart or proceeding to checkout-->
 {% if cart_items %}
-<div class="row">
-    <div class="col-sm-12 offset-md-10">
-        <h4>Total: {{total}}</h4>
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-12 offset-10">
-        <a href="{% url 'cart:empty_cart' %}"><button class = "btn btn-primary"><i class="fas fa-check-circle"></i>Empty Cart</button></a>
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-12 offset-10">
-        <a href="{% url 'payment_form' %}"><button class = "btn btn-success"><i class="fas fa-check-circle"></i>Checkout</button></a>
-    </div>
-</div>
+<div class="cartTotalArea">
+<h4>Total: {{total}}</h4>
+<a href="{% url 'cart:empty_cart' %}"><button class = "btn btn-primary"><i class="fas fa-check-circle"></i>Empty Cart</button></a>
+<a href="{% url 'payment_form' %}"><button class = "btn btn-success"><i class="fas fa-check-circle"></i>Checkout</button></a>
 {% endif %}
-{% endblock content %}
 </div>
+{% endblock content %}

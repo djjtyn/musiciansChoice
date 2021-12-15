@@ -14,6 +14,7 @@
 <div class="container-fluid">
     <form method="post" id="productForm" enctype="multipart/form-data">
         {% csrf_token %}
+                {% if edit %}<input type = "hidden" name = "instrument_id" value = {{product.id}}> {% endif %}
         <div class="row">
             <div class="col-sm-12 col-md-6">
                 <!--Input for the products brand-->

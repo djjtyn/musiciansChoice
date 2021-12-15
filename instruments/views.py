@@ -53,12 +53,27 @@ def product_form(request):
     return render(request, "InstrumentForm.html", {'brands': brands, 'types': types})
 
 def edit(request, instrument_id):
+    # Get the selected instrument's details
+    product = Instrument.objects.get(pk=instrument_id)
+    # If the request is POST, update the instruments details
+    if request.method == "POST":
+        try:
+            product.name = request.POST.get('model')
+            product.description = request.POST.get('description')
+            product.stock_amount = request.POST.get('stock')
+            product.cost = request.POST.get('price')
+            product.instrument_type = InstrumentType.objects.get(pk = request.POST.get('type'))
+            product.brand = Brand.objects.get(pk = request.POST.get('brand'))
+            product.save()
+            messages.info(request, "Product Details changed")
+        except:
+            messages.info(request, "Unable to update product details")
+        s3_bucket_url =  settings.INSTRUMENT_IMAGE_URL
+        return render(request, "instrument.html", {'product': product, 'bucket': s3_bucket_url})
     # If the request is a get request get all the product brands and instrument types already in the db
     brands = Brand.objects.all().order_by('brand')
     # Get all the instrument types already in the db
     types = InstrumentType.objects.all().order_by('type')
-    # Get the selected instrument's details
-    product = Instrument.objects.get(pk=instrument_id)
     return render(request, "InstrumentForm.html", {'brands': brands, 'types': types, 'edit': True, 'product': product})
     
     

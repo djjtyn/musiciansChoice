@@ -107,6 +107,11 @@ body {
     margin:1em auto;
 }
 
+form input, 
+form textarea {
+    padding:0 0 0 1em;
+}
+
 /*Page for viewing multiple instruments*/
 .filterInstrumentsForm {
     margin:2em 0 0 0;
@@ -204,6 +209,21 @@ body {
 
 .comments h1 {
     text-align:center;
+    text-decoration:underline;
+}
+
+.commentButtonWrap {
+    text-align:center;
+}
+
+.commentButtonWrap button {
+    padding:.5em;
+    margin:.1em;
+}
+
+#userCommentForm textarea {
+    width:100%;
+    height:6em;
 }
 
 /*Styling for the order history page*/

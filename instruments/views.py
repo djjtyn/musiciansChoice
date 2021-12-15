@@ -3,7 +3,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from brands.models import Brand
 from instrument_type.models import InstrumentType
 from django.contrib import messages
-from .models import Instrument, InstrumentPicture
+from .models import Instrument, InstrumentPicture, InstrumentComment
 from orders.models import Order, OrderLineItem
 from sns_notifications.sns_utils import sns
 import traceback
@@ -104,6 +104,19 @@ def view(request, instrument_id):
     s3_bucket_url =  settings.INSTRUMENT_IMAGE_URL
     # Retrieve the selected instruments details
     product = Instrument.objects.get(pk=instrument_id)
+    #If the request is a post request it signals a comment was posted
+    if request.method == "POST":
+        #If the user is logged in, create a comment instance
+        if request.user.is_authenticated:
+            try:
+                comment = InstrumentComment()
+                comment.instrument = product
+                comment.user = request.user
+                comment.comment = request.POST.get('comment')
+                comment.save()
+                messages.info(request, "Comment Posted!")
+            except:
+                messages.info(request, "Unable to post comment")
     return render(request, "instrument.html", {'product': product, 'bucket': s3_bucket_url})
 
 @staff_member_required    

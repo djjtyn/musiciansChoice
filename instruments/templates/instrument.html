@@ -52,30 +52,36 @@
                             <p>{{ comment.user.f_name}}</p>
                         </div>
                         <div class="col-sm-12 col-md-11 order-first order-md-2">
+                            <!--Each comment will have a delete option if the user is staff-->
+                            {% if user.is_staff %}
+                            <a href = "{% url 'instrument:delete_comment' comment.id %}">
+    			                <i class="fas fa-times-circle"></i>
+    				        </a>
+                            {% endif %} 
                             <p> {{ comment.comment}}</p>
                         </div>
                     </div>
-                    <!--Each comment will have a delete option if the user is staff-->
-                    {% if user.is_staff %}
-                    <a href = "@{'/deleteComment/'} + ${comment.commentId}">
-    			        <button class="btn btn-danger">Delete</button>
-    				</a>
-    				{% endif %}
                 <div>
-                <!--If there are no comments-->
-                {% empty %}
-                    <h1>No Comments Yet</h1>
                 {% endfor %}
+                {% if user.is_anonymous %}
+                    <!--Buttons to allow user to login or register to leave a comment-->
+                    <div class="commentButtonWrap">
+                        <p>To leave a comment</p>
+                        <a href="{% url 'login_form' %}"><button class = "btn btn-success">Login</button></a>
+                        <a href="{% url 'registration_form' %}"><button class = "btn btn-primary">Signin</button></a>
+                    </div>
+                {% else %}
 				<!--If the user is a logged in user they will have the ability to post a comment here-->
-				{% if user.is_authenticated %}
-				<form method="post" action="/postComment" id="reviewCommentForm">
+				<form method="post" id="userCommentForm">
                     {% csrf_token %}
 					<!--Get the reviews id-->
 					<input type="hidden" value="{{product.id}}">
 					<div class="form-group">
-                        <textarea placeholder = "Testing"></textarea>
+                        <textarea placeholder = "Type your comment" name = "comment"></textarea>
 					</div>
-					<button type="submit" class="validButton">Leave Comment</button>
+					<div class="commentButtonWrap">    
+					    <button type="submit" class="btn btn-success">Post Comment</button>
+				    </div> 
 				</form>
 				{% endif %}
 			</div>

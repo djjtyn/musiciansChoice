@@ -83,5 +83,9 @@ def create_payment_intent(request):
         messages.info(request, "Theres was an issue connecting with Stripe")
         return render(request, "cart.html")
         
-
+def payment_fail(request):
+    # Display a message showing the payment has failed
+    messages.info(request, "Payment Failed, Payments require a HTTPS connection")
+    return render(request, "cart.html")
+    
 

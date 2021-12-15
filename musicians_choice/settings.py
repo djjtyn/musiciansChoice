@@ -168,7 +168,6 @@ if os.path.exists("env.py"):
     #AWS S3 Details
     AWS_ACCESS_KEY_ID = env_variables.get_aws_access_key()
     AWS_SECRET_ACCESS_KEY = env_variables.get_aws_secret_key()
-
 else:
     #Stripe Details
     STRIPE_PUBLISHABLE_KEY = os.environ.get('stripe_publishable')

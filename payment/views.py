@@ -7,9 +7,7 @@ from orders.models import Order, OrderLineItem
 from django.contrib.auth.decorators import login_required
 import stripe,json
 import traceback
-import os
-if os.path.exists("env.py"):
-    import env as env_variables
+from django.conf import settings
 
 # Method below requires user to login
 @login_required()
@@ -23,7 +21,6 @@ def payment_form(request):
             for id, quantity in cart.items():
                 instrument = Instrument.objects.get(pk=id)
                 total += quantity * instrument.cost
-            print(total)
         except:
             print("Issue calculating the total")
             return render (request, 'index')
@@ -47,7 +44,6 @@ def payment_form(request):
                 order_line.order = order
                 order_line.save()
                 instrument.stock_amount -= quantity
-                print(instrument.stock_amount)
                 instrument.save()
                 # empty the cart
                 request.session['cart'] = {}
@@ -75,7 +71,7 @@ def create_payment_intent(request):
         return render(request, "cart.html")
     # Try to create a payment intent using the stripe API
     try:
-        stripe.api_key = env_variables.get_stripe_secret()
+        stripe.api_key = settings.STRIPE_SECRET_KEY
         intent = stripe.PaymentIntent.create(amount = int(total*100), currency = "eur", payment_method_types = ['card'],)
         # Retrieve the client secret key from the payment intent instance
         return JsonResponse({'client_secret': intent.client_secret})

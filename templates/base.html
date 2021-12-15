@@ -31,6 +31,9 @@
 				<li class="nav-item">
 					<a class="nav-link active" aria-current="page" href="{% url 'instrument:view_instruments' %}">View Instruments</a>
 				</li>
+				<li class="nav-item">
+					<a class="nav-link active" aria-current="page" href="{% url 'instrument:view_recommendations' %}">Recommended</a>
+				</li>
 
 				<!--If the user is a logged in staff member, display a dropdown with admin functions, otherwise dispaly a shopping cart-->
 				{% if user.is_authenticated and user.is_staff %}

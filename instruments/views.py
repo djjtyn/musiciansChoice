@@ -51,6 +51,16 @@ def product_form(request):
     # Get all the instrument types already in the db
     types = InstrumentType.objects.all().order_by('type')
     return render(request, "InstrumentForm.html", {'brands': brands, 'types': types})
+
+def edit(request, instrument_id):
+    # If the request is a get request get all the product brands and instrument types already in the db
+    brands = Brand.objects.all().order_by('brand')
+    # Get all the instrument types already in the db
+    types = InstrumentType.objects.all().order_by('type')
+    # Get the selected instrument's details
+    product = Instrument.objects.get(pk=instrument_id)
+    return render(request, "InstrumentForm.html", {'brands': brands, 'types': types, 'edit': True, 'product': product})
+    
     
 def view_instruments(request):
     s3_bucket_url =  settings.INSTRUMENT_IMAGE_URL

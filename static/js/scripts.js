@@ -157,21 +157,27 @@ function payWithCard(stripe, cardNumber, secretKey) {
 	//Call the loading method to show signal payment has started 
 	loading(true);
 	let displayError = document.getElementById("card-errors")
-	stripe.confirmCardPayment(secretKey, {
-		payment_method: {
-			card: cardNumber,
-			billing_details: {
-				name: $("#cardHolderName").val()
-			}
-		}
-	}).then(function(result) {
-		if (result.error) {
-		    let response = fetch('/payment_fail');
-		    return response;
-			displayFormError($("#cardExpiry"), result.error.message);
- 		}
-	})
+	try {
+	    stripe.confirmCardPayment(secretKey, {
+    		payment_method: {
+    			card: cardNumber,
+    			billing_details: {
+    				name: $("#cardHolderName").val()
+    			}
+		    }
+    	}).then(function(result) {
+    		if (result.error) {
+    			displayFormError($("#cardExpiry"), result.error.message);
+     		}
+	    })
+	} catch (e) {
+	   let response = fetch('/payment_fail');
+	   console.log("Payment Failed");
+	   return response;
+	}
 }
+
+
 function validQuantityCheck(element, maxAmount) {
      let inputElement = element.querySelector("input[name = 'quantity']");
      // Prevent the user from using a negative number

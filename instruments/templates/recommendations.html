@@ -5,8 +5,19 @@
     <div class="bannerImgArea">
         <h1 class="pageHeading">Recommended</h1>
         <img src="../../static/img/musicNotes.jpg" alt="hiddenMusicians" class="pageBannerImg">
-        <div class="row filterInstrumentsForm">
-            <div class="col-sm-6">
+        <<div class="row filterInstrumentsForm">
+            <div class="col-sm-12">
+                <!--Sorting Options-->
+                <form method="POST" class="filterInstrumentsForm" id="sortByForm">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <select name="sort_by">
+                            <option selected disabled>Sort By</option>
+                            <option value="brand">Brand (A-Z)</option>
+                            <option value="cost">Cost</option>
+                        </select>
+                    </div>
+                </form>
             </div>
         </div> 
     </div>

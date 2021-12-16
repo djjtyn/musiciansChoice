@@ -178,7 +178,16 @@ def view_recommendations(request):
                 # Add instruments to the recommendations list if they are not already appended
                 if line_item.instrument not in recommendations:
                     recommendations.append(line_item.instrument)
-    return render(request, "recommendations.html", {'instruments' : recommendations, 'image': instrument_images, 'bucket': s3_bucket_url});
+    # If the request is a post request a filter has been applied
+    if request.method == "POST":
+        # Determine if filter is a sort filter or another filter
+        if request.POST.get('sort_by'):
+            # Instantiate the custom library
+            myLib = MyMethods()
+            sort_filter = request.POST.get('sort_by')
+            myLib.sort_by(recommendations, 0, len(recommendations)-1 , sort_filter)
+            messages.info(request, f"Products sorted by {sort_filter}")
+    return render(request, "recommendations.html", {'instruments' : recommendations,'image': instrument_images, 'bucket': s3_bucket_url});
     
 def delete_comment(request, comment_id):
     # Need to get hte product from the comment so as to redirect back to its page

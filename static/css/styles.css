@@ -101,6 +101,34 @@ body {
     margin:1em auto;
 }
 
+/*Payment form*/
+
+#paymentForm {
+    max-width:100vw;
+}
+.paymentFormSide {
+    margin:2em;
+    border:1px solid black;
+    padding:1em;
+    text-align:center;
+    height:40em;
+    max-width:100%;
+}
+
+.paymentFormInput {
+    width:80%;
+    margin:auto;
+    border: .1em solid black;
+    height:1.5em;
+}
+
+.paymentButton {
+    text-align: center;
+    width:auto;
+    margin:auto;
+    padding:2em;
+}
+
 /*Page for adding new instrument types, suppliers*/
 #instrumentTypeForm,
 #supplierForm,
@@ -266,10 +294,13 @@ body {
 
 /*Styling for the order history page*/
 .orderTable {
-    max-width:-webkit-fill-available;
     padding:2em;
     margin:1em;
     border:.1em solid black;
+}
+
+.orderSortForm {
+    margin:1em 1em;
 }
 
 

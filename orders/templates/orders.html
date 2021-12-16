@@ -1,35 +1,48 @@
 {% extends 'base.html' %}
 {% block page_title %}View Orders{% endblock %}
 {% block content %}
-<!--For each Order display a row-->
-<table class="table orderTable">
-    <thead>
-        <tr>
-            <th>Order ID</th>
-            <th>Customer ID</th>
-            <th>Total Cost</th>
-            <th>Date</th>
-            <th>Order Line</th>
-            <th>Customer</th>
-        </tr>
-    </thead>
-    <!--If there are no orders in the database, display that information-->
-    <tbody>
-        <!--Display a table row for each order if there are orders-->
-        {% for order in orders %}
-            <tr>
-                <td>{{order.id}}</td>
-                <td>{{order.customer.id}}</td>
-                <td>{{order.totalCost}}</td>
-                <td>{{order.date}}</td>
-                <td><button class = "btn btn-primary" onclick = "alert(`{% for orderLine in order.get_order_details%}{{orderLine.instrument.brand}} {{orderLine.instrument.name}} X {{orderLine.quantity}} @ &euro;{{orderLine.instrument.cost}} each = {{orderLine.calculate_cost}}\n{% endfor%}`)">Details</button></td>
-                <td><button class = "btn btn-success" onclick = "alert(`Customer Name: {{order.customer.f_name}} {{order.customer.l_name}}\nEmail: {{order.customer.email}}\nPhone: {{order.customer_phone}}\\\nDelivery Address\n{{order.delivery_street}},\n{{order.delivery_town}},\n{{order.delivery_street}},\n{{order.delivery_county}}`)">Info</button></td>
-                {% empty %}
-                <td width="99%">No orders in database</td>  
-            <tr>
-            
-        {% endfor%}
-    </tbody>
-</table>
-
+<div class="container-fluid">
+    <!--Form to allow sorting-->
+    <form method="POST" id="sortByForm" class = "orderSortForm">
+        {% csrf_token %}
+        <div class="form-group">
+            <select name="sort_by">
+                <option selected disabled>Sort By</option>
+                <option value="date">Date</option>
+                <option value="total_cost">Cost</option>
+            </select>
+        </div>
+    </form>
+    <div class="table-responsive">
+        <table class="table orderTable">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer ID</th>
+                    <th>Total Cost</th>
+                    <th>Date</th>
+                    <th>Order Line</th>
+                    <th>Customer</th>
+                </tr>
+            </thead>
+            <!--If there are no orders in the database, display that information-->
+            <tbody>
+                <!--Display a table row for each order if there are orders-->
+                {% for order in orders %}
+                    <tr>
+                        <td>{{order.id}}</td>
+                        <td>{{order.customer.id}}</td>
+                        <td>{{order.totalCost}}</td>
+                        <td>{{order.date}}</td>
+                        <td><button class = "btn btn-primary" onclick = "alert(`{% for orderLine in order.get_order_details%}{{orderLine.instrument.brand}} {{orderLine.instrument.name}} X {{orderLine.quantity}} @ &euro;{{orderLine.instrument.cost}} each = {{orderLine.calculate_cost}}\n{% endfor%}`)">Details</button></td>
+                        <td><button class = "btn btn-success" onclick = "alert(`Customer Name: {{order.customer.f_name}} {{order.customer.l_name}}\nEmail: {{order.customer.email}}\nPhone: {{order.customer_phone}}\\\nDelivery Address\n{{order.delivery_street}},\n{{order.delivery_town}},\n{{order.delivery_street}},\n{{order.delivery_county}}`)">Info</button></td>
+                        {% empty %}
+                        <td width="99%">No orders in database</td>  
+                    <tr>
+                    
+                {% endfor%}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock content %}

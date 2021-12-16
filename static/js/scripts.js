@@ -140,7 +140,6 @@ $(document).ready(function() {
     }
 	$("#paymentForm").on("submit", function (event) {
 	    event.preventDefault();
-	    loading(true);
 	    // Fetches a payment intent and captures the client secret
         var response = fetch('create_payment_intent').then(function(response) {
             return response.json();
@@ -154,8 +153,6 @@ $(document).ready(function() {
 })
 
 function payWithCard(stripe, cardNumber, secretKey) {
-	//Call the loading method to show signal payment has started 
-	loading(true);
 	let displayError = document.getElementById("card-errors")
 	try {
 	    stripe.confirmCardPayment(secretKey, {
@@ -214,19 +211,6 @@ function validQuantityCheck(element, maxAmount) {
 // 	form.submit();
 // }
 
-//Method to show user their payment is processing
-function loading(isLoading) {
-  if (isLoading) {
-    // Disable the button and show a spinner
-    document.querySelector("button").disabled = true;
-    document.querySelector("#spinner").classList.remove("hidden");
-    //document.querySelector("#button-text").classList.add("hidden");
-  } else {
-    document.querySelector("button").disabled = false;
-    document.querySelector("#spinner").classList.add("hidden");
-    document.querySelector("#button-text").classList.remove("hidden");
-  }
-}
 
 function displayFormError(element, errorMessage) {
     //Avoid error duplication to check if error message is already present

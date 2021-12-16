@@ -29,28 +29,29 @@
 					<a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link active" aria-current="page" href="{% url 'instrument:view_instruments' %}">View Instruments</a>
+					<a class="nav-link active" aria-current="page" href="{% url 'instrument:view_instruments' %}">View Products</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link active" aria-current="page" href="{% url 'instrument:view_recommendations' %}">Recommended</a>
 				</li>
-
+			</ul>
+			<!--Navbar elements on right-->
+			<ul class="navbar-nav ml-auto">
+				{% if user.is_authenticated%}
 				<!--If the user is a logged in staff member, display a dropdown with admin functions, otherwise dispaly a shopping cart-->
-				{% if user.is_authenticated and user.is_staff %}
+				{% if user.is_staff %}
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<a class="dropdown-item" href="{% url 'instrument:product_form' %}">Add Product</a>
 							<a class="dropdown-item" href="{% url 'instrument_type_form' %}">Add Instrument Type</a>
 							<a class="dropdown-item" href="{% url 'supplier_form' %}">Add Supplier</a>
+							<a class="dropdown-item" href="{% url 'view_orders' %}">View Orders</a>
 						</div>
 					</li>
-				{% endif %}
-			</ul>
-			<!--Navbar elements on right-->
-			<ul class="navbar-nav ml-auto">
-				{% if user.is_authenticated%}
+				{% else %}
 				<li class = "nav-item"><a class="nav-link" href="{% url 'view_orders' %}"><i class="fas fa-receipt"></i>View Orders</a></li>
+				{% endif %}
 				{% endif %}
 					<li class="nav-item">
 						<a class="nav-link" href="{% url 'cart:view_cart' %}">

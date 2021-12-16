@@ -20,6 +20,13 @@ class Order(models.Model):
     
     def get_order_details(self):
         return OrderLineItem.objects.filter(order = self.id)
+        
+    def get_sorting_filter(self, sorting_filter):
+        if sorting_filter == "date":
+            return self.date
+        if sorting_filter == "total_cost":
+            return self.totalCost
+
 
         
 

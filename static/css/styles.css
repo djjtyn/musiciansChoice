@@ -294,10 +294,13 @@ body {
 
 /*Styling for the order history page*/
 .orderTable {
-    max-width:-webkit-fill-available;
     padding:2em;
     margin:1em;
     border:.1em solid black;
+}
+
+.orderSortForm {
+    margin:1em 1em;
 }
 
 

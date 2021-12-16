@@ -186,6 +186,6 @@ def delete_comment(request, comment_id):
         InstrumentComment.objects.filter(pk=comment_id).delete()
         messages.info(request, "Comment Deleted")
     except:
-        message.info(request, "Unable to delete comment")
+        messages.info(request, "Unable to delete comment")
     return redirect ("instrument:view", instrument_id = instrument_id)
 

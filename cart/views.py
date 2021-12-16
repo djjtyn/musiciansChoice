@@ -54,6 +54,6 @@ def adjust_cart(request, instrument_id):
     cart[str(instrument_id)] = quantity
     request.session['cart'] = cart
     messages.success(request, "Your cart has been adjusted")
-    return render(request, 'cart.html')
+    return view_cart(request)
 
     

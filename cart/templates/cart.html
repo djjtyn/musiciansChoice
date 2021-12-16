@@ -37,7 +37,7 @@
 {% if cart_items %}
 <div class="cartTotalArea">
 <h4>Total: {{total}}</h4>
-<a href="{% url 'cart:empty_cart' %}"><button class = "btn btn-primary"><i class="fas fa-check-circle"></i>Empty Cart</button></a>
+<a href="{% url 'cart:empty_cart' %}"><button class = "btn btn-primary"><i class="fas fa-trash"></i></i>Empty Cart</button></a>
 <a href="{% url 'payment_form' %}"><button class = "btn btn-success"><i class="fas fa-check-circle"></i>Checkout</button></a>
 {% endif %}
 </div>

@@ -1,57 +1,60 @@
 {% extends 'base.html' %} {% block page_title %}Add Product{% endblock %} {% block content %}
 <div class="container-fluid">
+    <div class="bannerImgArea">
+        <h1 class="pageHeading">Payment</h1>
+        <img src="../static/img/cart.jpeg" alt="cartImage" class="pageBannerImg">
+    </div>
     <form method="post" id="paymentForm">
         {% csrf_token %}
         <div class="row">
             <div class="col-sm-12 col-md-6">
-                <div class="formIconContainer">
-                    <i class="far fa-credit-card"></i>
-                    <h1>Payment Details</h1>
-                </div>
-                <div class="form-group">
-                    <label for="cardholder_name">Cardholder name:</label>
-                    <input type="text" name="cardholder_name">
-                </div>
-                <div class="form-group">
-                    <div id="cardNumber"></div>
-                </div>
-                <div class="form-group">
-                    <div id="cardExpiry"></div>
-                </div>
-                <div class="form-group">
-                    <div id="cardCvc"></div>
+                <div class="paymentFormSide">
+                    <div class="formIconContainer">
+                        <i class="far fa-credit-card"></i>
+                        <h1>Payment Details</h1>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="cardholder_name" placeholder = "Cardholder Name" class = "paymentFormInput">
+                    </div>
+                    <div class="form-group">
+                        <div id="cardNumber" class = "paymentFormInput"></div>
+                    </div>
+                    <div class="form-group">
+                        <div id="cardExpiry" class = "paymentFormInput"></div>
+                    </div>
+                    <div class="form-group">
+                        <div id="cardCvc" class = "paymentFormInput"></div>
+                    </div>
                 </div>
             </div>
             <div class="col-sm-12 col-md-6">
-                <div class="formIconContainer">
-                    <i class="fas fa-truck"></i>
-                    <h1>Delivery Details</h1>
-                </div>
-                <div class="form-group">
-                    <label for="addressOne">Address Line 1:</label>
-                    <input type="text" name="addressOne" required>
-                </div>
-                <div class="form-group">
-                    <label for="addressTwo">Address line 2:</label>
-                    <input type="text" name="addressTwo" required>
-                </div>
-                <div class="form-group">
-                    <label for="addressThree">Address line 3:</label>
-                    <input type="text" name="addressThree" required>
-                </div>
-                <div class="form-group">
-                    <label for="postCode">Postcode:</label>
-                    <input type="text" name="postCode" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Phone No:</label>
-                    <input type="text" name="phone" required>
+                <div class="paymentFormSide">
+                    <div class="formIconContainer">
+                        <i class="fas fa-truck"></i>
+                        <h1>Delivery Details</h1>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="addressOne" placeholder = "Address Line 1" class = "paymentFormInput" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="addressTwo" placeholder = "Address Line 2"  class = "paymentFormInput" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="addressThree" placeholder = "Address Line 3" class = "paymentFormInput" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="postCode" placeholder = "Postcode" class = "paymentFormInput" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="phone" placeholder = "Ph Number" class = "paymentFormInput" required>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-             <div class="spinner hidden" id="spinner"></div>
-            <button class="btn btn-success">Pay &#8364 {{total}}</button>
+        <div class="row ">
+            <div class="paymentButton">
+                <button class="btn btn-success">Pay &#8364 {{total}}</button>
+            </div>
         </div>
     </form>
 </div>

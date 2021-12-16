@@ -37,7 +37,30 @@ body {
     background-color:black;
     color:white;
 }
+/* index page*/
+.indexPageBoxWrap {
+    padding:1em;
+    margin:1em;
+    text-align:center;
+}
 
+.indexPageBoxWrap h2 {
+    padding: .9em 0;
+}
+
+.indexPageBoxWrap img {
+    width:100%;
+}
+
+.indexPageBoxWrap .card {
+    padding:2em;
+    height:20em;
+    margin-bottom:1em;
+}
+.indexPageBoxWrap .card i{
+    font-size:4em;
+    color:green;
+}
 /*Listing items already in database on pages with forms*/
 .existingItems {
     text-align: center;

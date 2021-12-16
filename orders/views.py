@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import Order
 from django.contrib import messages
-from custom_library.library_methods_pkg.library_methods import MyMethods
+from musicians_choice_lib_pkg.musicians_choice_lib import MyMethods # Custom library
 
 # Create your views here.
 def view_orders(request):
@@ -21,7 +21,7 @@ def view_orders(request):
         # Determine if filter is a sort filter or another filter
         if request.POST.get('sort_by'):
             sort_filter = request.POST.get('sort_by')
-            testLib = MyMethods()
-            testLib.sort_by(orders, 0, len(orders)-1 , sort_filter)
+            myLib = MyMethods()
+            myLib.sort_by(orders, 0, len(orders)-1 , sort_filter)
             messages.info(request, f"Products sorted by {sort_filter}")
     return render(request, 'orders.html', {'orders': orders})

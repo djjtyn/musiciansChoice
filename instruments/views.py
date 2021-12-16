@@ -8,7 +8,7 @@ from orders.models import Order, OrderLineItem
 from sns_notifications.sns_utils import sns
 import traceback
 from django.conf import settings
-from custom_library.library_methods_pkg.library_methods import MyMethods
+from musicians_choice_lib_pkg.musicians_choice_lib import MyMethods # Custom library
 
 
 
@@ -87,9 +87,10 @@ def view_instruments(request):
     if request.method == "POST":
         # Determine if filter is a sort filter or another filter
         if request.POST.get('sort_by'):
+            # Instantiate the custom library
+            myLib = MyMethods()
             sort_filter = request.POST.get('sort_by')
-            testLib = MyMethods()
-            testLib.sort_by(instruments, 0, len(instruments)-1 , sort_filter)
+            myLib.sort_by(instruments, 0, len(instruments)-1 , sort_filter)
             messages.info(request, f"Products sorted by {sort_filter}")
         else:
             print(request.POST.get('filter_by'))

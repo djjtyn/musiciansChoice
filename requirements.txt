@@ -10,7 +10,7 @@ django-forms-bootstrap==3.1.0
 django-storages==1.12.3
 idna==3.3
 jmespath==0.10.0
-musicians-choice-lib==0.0.0
+musicians-choice-cpp-lib==0.0.1
 mysql-connector==2.2.9
 Pillow==8.4.0
 pycparser==2.21

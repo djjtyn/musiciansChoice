@@ -184,6 +184,10 @@ body {
     margin:1em 0;
 }
 
+.instrumentCard form {
+    margin:1em;
+}
+
 .formInlineElements {
     text-align:center;
 }
@@ -258,9 +262,17 @@ body {
 
 .comments {
     background-color:blue;
+    color:white;
     padding:1em;
     margin:1em;
     width:100%;
+}
+
+.comments .comment {
+    color:yellow;
+    border: 1px solid white;
+    padding:1em;
+    margin:1em 0;
 }
 
 .comments h1 {
@@ -268,14 +280,23 @@ body {
     text-decoration:underline;
 }
 
+.comment .fa-times-circle {
+    float:right;
+    color:red;
+    font-size:2em;
+}
 .comments i {
     font-size:2em;
 }
 
 .comments a {
     font-size:.8em;
-    float:right;
     color:red;
+}
+
+comments a .fa-times-circle {
+    color:red;
+    float:right;
 }
 
 .commentButtonWrap {
